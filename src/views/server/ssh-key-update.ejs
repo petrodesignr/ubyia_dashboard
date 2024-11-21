@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ubya - Liste des serveur</title>
+
+    <link rel="stylesheet" href="/style/server.css" />
+    <link rel="stylesheet" href="/style/staff.css" />
+  </head>
+<body>
+  
+
+
+<%- include('../header'); %>
+<main id="mainUpdateSsh">
+<form  method="POST" class="update-box">
+    <h3>Update Clés SSH</h3>
+   <% if (message) { %>
+      <p class="error-message" style="color: red;"><%= message %></p>
+    <% } %>
+    <input type="hidden" name="ubybox_serial_number" value="<%= server.ubybox_serial_number %>" /> 
+    
+    <div class="form-group">
+      <label for="ssh_key">Clés SSH:</label>
+      <input
+        type="text"
+        id="ssh_key"
+        name="ssh_key"
+        value="<%= server.ubybox_ssh_key %>"
+         />
+    </div>
+       <button type="submit" class="update-btn" >Update Clé SSH</button>
+  </form>
+  </main>
+  </body>
+</html>

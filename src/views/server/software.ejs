@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>software</title>
+    <link rel="stylesheet" href="/style/style.css" />
+    <link rel="stylesheet" href="/style/history.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+  </head>
+  <body>
+    <%- include('../header.ejs') -%>
+    <main id="software">
+      <div class="containerSoftware">
+        <a href="/server/servers" class="back-button">Retour</a>
+        <div class="card">
+          <h1>Software <%- serverId -%></h1>
+          <% applicationServer.forEach(info => { %>
+          <div class="item">
+            <div class="details">
+              <p class="title"><%- info.application_name -%></p>
+            </div>
+            <div class="containerBubble">
+                <div class="info-bubble"><%- info.ubybox_application_version -%></div>
+            </div>
+            <a href="#" class="material-symbols-outlined"> edit_square </a>
+          </div>
+          <% }) %>
+        </div>  
+      </div>
+    </main>
+  </body>
+</html>

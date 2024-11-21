@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ajouter historique</title>
+    <link rel="stylesheet" href="/style/history.css" />
+    <link rel="stylesheet" href="/style/style.css" />
+  </head>
+  <body>
+   <%- include('../header.ejs') -%>
+    <main id="details">
+        <div class="containerDetails" >
+            <a href="/server/<%- server_id -%>/history" class="back-link">Retour</a>
+            <div class="cardDetails">
+                <h2>Détail de l'historique</h2>
+                <p class="history-id"><%- history.history_id -%> </p>
+                
+                <div class="form-group">
+                    <label for="type">Type :</label>
+                    <span><%- history.event_type_name -%></span>
+                </div>
+                <div class="form-group">
+                    <label for="date" >Date:</label>
+                    <!-- Formule pour récupérer la date et l'heure sans passer par l'UTF pour évité un décallage de un jour -->
+                    <span><%= ('0' + history.history_date.getDate()).slice(-2) + '-' +
+                        ('0' + (history.history_date.getMonth() + 1)).slice(-2) + '-' +
+                        history.history_date.getFullYear() + ' ' +
+                        ('0' + history.history_date.getHours()).slice(-2) + ':' +
+                        ('0' + history.history_date.getMinutes()).slice(-2) + ':' +
+                        ('0' + history.history_date.getSeconds()).slice(-2) %></span>
+                </div>
+                <div class="form-group">
+                    <label for="intervenant">Intervenant:</label>
+                    <span><%- history.staff_first_name -%></span>
+                </div>
+                <div class="form-group">
+                    <label for="detail">Detail :</label>
+                    <p id="detail" rows="4" placeholder="Detail lors de l'intervention"><%- history.history_details -%></p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-green">Consulter pièce jointe</button>
+                    <% if(staff.id_role == 1){ %>
+                    <a href="/server/<%- server_id -%>/history/update/<%- history.history_id %>" class="buttonUpdate"> Editer </a> 
+                    <a id="openPopup" class="btn btn-red" >Supprimer</a>
+                    
+                </div>                                 
+            </div>
+        </div>
+        <!-- POPUP -->
+        <div class="deletePopup ">
+                    <form method="post" action="/server/<%- server_id -%>/history/delete/<%- history.history_id %>">
+                        <h2>Etes vous sur de supprimer cet historique ?</h2>
+                        <div class="btn btn-green cancelBtn" >Annuler</div>
+                        <button type="submit" class="btn btn-red deleteBtn" >Supprimer</button>
+                    </form>
+                </div><% }%>
+    </main>
+    <script src="/script/historyDetailsPopup.js"></script>
+    </body>

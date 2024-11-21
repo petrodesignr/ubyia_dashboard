@@ -1,0 +1,391 @@
+@import url("style.css");
+/*---------------------- SERVER HEADER----------------------------------*/
+
+main {
+  color: var(--primary-color);
+}
+
+main section#serverAddSection {
+  font-size: 1.2rem;
+  background-color: #fff;
+  padding: 90px 0 20px;
+}
+
+main section#serverAddSection div#serverAdd {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+main section#serverAddSection div#serverAdd h2 {
+  font-size: xxx-large;
+}
+
+button.mainAdd a {
+  display: block;
+  padding: 30px 90px;
+}
+
+button.mainAdd span {
+  font-size: 3rem;
+}
+
+button.mainAdd {
+  cursor: pointer;
+  font-size: clamp(1rem, 1.2rem, 1.3rem);
+  border: var(--primary-color) 1px solid;
+  border-radius: 25px;
+  background-color: var(--bg-color);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  margin: 50px auto;
+}
+
+button.mainAdd:hover {
+  transform: scale(1.10);
+}
+
+button.mainAdd:active {
+  scale: 0.95;
+  box-shadow: 0 0px 5px rgba(0, 0, 0, 0.4);
+  opacity: 0.6;
+}
+
+div#serverStat {
+  width: 80%;
+  margin-left: 8%;
+}
+
+div#serverStat ul {
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+div#serverStat ul li {
+  padding: 15px 25px;
+  border: var(--primary-color) 1px solid;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.4);
+}
+
+/*---------------------- SERVER HEADER ----------------------------------*/
+
+/*---------------------- SERVER LIST ----------------------------------*/
+
+button.valid {
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  color: var(--bg-color);
+  background-color: var(--fourth-color);
+  width: 120px;
+  height: 45px;
+}
+
+.serverStatInfo {
+  display: flex;
+  align-items: center;
+}
+
+span.serverColor {
+  font-size: 2rem;
+}
+
+span.serverColor.green {
+  color: green;
+}
+
+span.serverColor.red {
+  color: red;
+}
+
+span.serverColor.orange {
+  color: orange;
+}
+/*---------------------- SERVER LIST ----------------------------------*/
+
+/*---------------------- SERVER FORM ----------------------------------*/
+
+section#containerFormServerAdd {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: var(--main-min-height);
+  width: 100%;
+  margin-top: 40px;
+}
+
+section#containerFormServerAdd div#contentFormServerAdd {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+section#containerFormServerAdd div#contentFormServerAdd div.linkBackContainer {
+  color: var(--bg-color);
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+form#formAddServer {
+  border-radius: 20px;
+  background-color: var(--bg-color);
+  width: 100%;
+}
+
+form#formAddServer h2 {
+  padding: 30px;
+}
+
+form#formAddServer div#containerformAddServerSection {
+  display: flex;
+  justify-content: space-around;
+  height: 60%;
+}
+
+form#formAddServer div#containerformAddServerSection div.formAddServerSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 30px;
+  width: 50%;
+  height: 100%;
+}
+
+form#formAddServer div#containerformAddServerSection div.formAddServerSection button.attachement {
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 10px;
+  color: var(--bg-color);
+  background-color: var(--primary-color);
+}
+
+form#formAddServer div#containerformAddServerSection div.formAddServerSection select.formAddServerSelect {
+  appearance: none;
+  width: 100%;
+  padding: 10px;
+  background-color: var(--bg-color);
+  margin: 10px 0 20px 0;
+}
+
+.rangeInfo {
+  margin: 0 0 20px;
+}
+
+/*---------------------- SERVER FROM ----------------------------------*/
+/*---------------------- SERVER DETAIL ----------------------------------*/
+main#mainDetail,
+main#mainUpdate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--main-min-height);
+}
+
+/*---------------------- SERVER DETAIL ----------------------------------*/
+
+section#containerDetailServerAdd {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: var(--main-min-height);
+}
+
+section#containerDetailServerAdd.enable {
+  filter: grayscale(90%);
+  pointer-events: none;
+}
+
+section#containerDetailServerAdd div#contentDetailServerAdd {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+section#containerDetailServerAdd div#contentDetailServerAdd div.linkBackContainer {
+  color: var(--bg-color);
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+main#mainDetail ul#serverDetail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background-color: var(--bg-color);
+  width: 100%;
+  padding: 20px;
+}
+
+main#mainDetail ul#serverDetail li {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5px 0;
+}
+
+main#mainDetail ul#serverDetail li#buttonDetailSection {
+  width: 100%;
+}
+
+main#mainDetail ul#serverDetail li#buttonDetailSection a,
+main#mainDetail section#deletePopupServer form div a#cancelPopup {
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 10px;
+  color: var(--bg-color);
+  background-color: var(--primary-color);
+}
+
+main#mainDetail section#deletePopupServer {
+  position: fixed;
+  border-radius: 20px;
+  background-color: var(--bg-color);
+  width: 60vw;
+  height: 40vh;
+  display: none;
+  justify-content: space-around;
+  align-items: center;
+  opacity: 0;
+}
+
+main#mainDetail section#deletePopupServer.active {
+  display: flex;
+  opacity: 1;
+}
+
+main#mainDetail section#deletePopupServer form {
+  display: flex;
+  flex-direction: column;
+}
+
+main#mainDetail section#deletePopupServer form div {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px 0;
+}
+
+form#formAddServer div#containerformAddServerSection div.formAddServerSection textarea.clauseServer {
+  height: 50%;
+  margin-bottom: 20px;
+}
+/***section middle******/
+.filter {
+  margin: 20px 0;
+  height: 25px;
+}
+/*************card*************/
+div.card-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 2px;
+}
+.card-body {
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+}
+.name {
+  margin: 13px 0;
+  display: flex;
+  flex-direction: row;
+}
+
+ #access {
+   right: 7%;
+   position: absolute;
+ }
+/* ------------------------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------- Responsive section -------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+
+  div#serverStat ul,
+  form#formAddServer div#containerformAddServerSection {
+    flex-wrap: wrap;
+    height: auto;
+  }
+
+  div#serverStat ul li {
+    box-shadow: none;
+    width: 50%;
+  }
+
+  button.mainAdd a {
+    padding: 8% 10%;
+  }
+
+  main#mainUpdate,
+  main#mainDetail {
+    height: auto;
+  }
+
+  main#mainDetail ul#serverDetail {
+    width: auto;
+    margin: 0 5px;
+  }
+
+  form#formAddServer div#containerformAddServerSection div.formAddServerSection {
+    padding: 10px 30px;
+  }
+}
+@media only screen and (max-width: 480px) {
+  #encryption {
+    margin-right: 6%;
+  }
+  .edit-encryption {
+      left: 3%;
+  }
+  #access {
+    right: 2%;
+    position: relative;
+  }
+}
+@media only screen and (max-width: 700px) {
+  #encryption {
+    margin-left: 23%;
+  }
+  .edit-encryption {
+      left: 3%;
+  }
+}
+@media only screen and (min-width: 701px) and (max-width: 900px) {
+  #access {
+    right: 2%;
+    position: relative;
+  }
+}
+@media only screen and (min-width: 701px) {
+#encryption {
+  margin-right: 6%;
+}
+.edit-encryption {
+  align-items: center;
+  gap: 8px;
+  flex-direction: column;
+  position: relative;
+  display: flex;
+  right: 25%;
+}
+}

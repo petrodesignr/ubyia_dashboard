@@ -1,0 +1,66 @@
+
+<head>
+  <link rel="stylesheet" href="/style/staff.css" />
+  <link rel="stylesheet" href="/style/style.css" />
+</head>
+<main >
+  
+  <form action="/staff/account" method="POST" class="creation-box">
+    <h3>Update Staff Details</h3>
+    <% if (error) { %>
+      <p class="error-message" style="color: red;"><%= error %></p>
+    <% } %>
+    <input type="hidden" name="staff_id" value="<%= staff.staff_id %>" />
+    
+    <div class="form-group">
+      <label for="staff_first_name">First Name:</label>
+      <input
+        type="text"
+        id="staff_first_name"
+        name="staff_first_name"
+        value="<%= staff.staff_first_name %>"
+       readonly  />
+    </div>
+
+    <div class="form-group">
+      <label for="staff_last_name">Last Name:</label>
+      <input
+        type="text"
+        id="staff_last_name"
+        name="staff_last_name"
+        value="<%= staff.staff_last_name %>"
+       readonly />
+    </div>
+
+    <div class="form-group">
+      <label for="staff_email">Email:</label>
+      <input
+        type="text"
+        id="staff_email"
+        name="staff_email"
+        value="<%= staff.staff_email %>"
+        readonly />
+    </div>
+
+    <div class="form-group">
+      <label for="staff_password">New Password (leave blank to keep current):</label>
+      <input
+        type="password"
+        id="staff_password"
+        name="staff_password"
+        placeholder="Leave blank to keep current password" />
+    </div>
+
+    <div class="form-group">
+      <label for="staff_phone">Phone:</label>
+      <input
+        type="text"
+        id="staff_phone"
+        name="staff_phone"
+        value="<%= staff.staff_phone %>"
+        required />
+    </div>
+
+    <button type="submit" class="submit-btn" >Update Staff</button>
+  </form>
+</main>

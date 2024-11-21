@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ubya - Liste des serveur</title>
+
+    <link rel="stylesheet" href="/style/server.css" />
+    <link rel="stylesheet" href="/style/staff.css" />
+  </head>
+
+<body>
+  
+
+<%- include('../header'); %>
+<main id="mainUpdateIp">
+<form  method="POST" class="update-box">
+    <h3>Update Address IP</Address></h3>
+    
+    <input type="hidden" name="staff_id" value="<%= staff.staff_id %>" />
+    
+    <div class="form-group">
+      <label for="ubybox_address_ip">Address IP :</label>
+      <input
+        type="text"
+        id="ubybox_address_ip"
+        name="ubybox_address_ip"
+        value="<%= server.ubybox_address_ip%>"
+         />
+    </div>
+       <button type="submit" class="update-btn" >Update Address IP</button>
+  </form>
+</main>
+  </body>
+
+</html>

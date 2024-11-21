@@ -1,0 +1,542 @@
+/* ------------------------------ BOUTON -----------------------------------------------*/
+.back-button {
+  color: white;
+  text-decoration: underline;
+  font-weight: 500;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #d9534f;
+}
+
+/*------------------------------ Display flex --------------------------------------- */
+main#add,
+main#mainUpdate,
+.containerAdd,
+div#containerUpdate,
+div.main,
+main#details,
+div.container,
+main#mainHardware{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main#software {
+  margin: 105px;
+}
+
+.entry-header,
+main section#historyAddSection div#historyAdd,
+div#historyStat ul,
+.entries .entry .entry-header a,
+div.main form,
+.validateButton,
+.button-group,
+.item,
+.containerBubble,
+.icon {
+  display: flex;
+}
+
+.entry-header,
+main section#historyAddSection div#historyAdd,
+div#historyStat ul,
+.entries .entry .entry-header a {
+  align-items: center;
+}
+
+.entries .entry .entry-header a span.material-symbols-outlined,
+.cardDetails,
+.quantity,
+.info-bubble {
+  text-align: center;
+}
+
+.containerAdd,
+div#containerUpdate,
+.validateButton,
+textarea,
+main#Details-main {
+  width: 100%;
+}
+
+/* /------------------------------------ HISTORY EJS ----------------------------------/ */
+
+.entries {
+  margin-top: 30px;
+}
+
+.entry {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 80px;
+  padding: 15px;
+  text-align: left;
+  position: relative;
+}
+
+.entry-header {
+  justify-content: space-between;
+}
+
+.entry-header span {
+  color: #004953;
+  font-size: 14px;
+}
+
+.entry p {
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+main {
+  color: var(--primary-color);
+}
+
+main section#historyAddSection {
+  font-size: 1.2rem;
+  background-color: #fff;
+  height: 85vh;
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.4);
+}
+
+main section#historyAddSection div#historyAdd {
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+}
+
+main section#historyAddSection div#historyAdd h2 {
+  font-size: 2.3rem;
+  margin-top: 30px;
+}
+
+button.mainAdd a {
+  display: block;
+  padding: 80px 150px;
+}
+
+button.mainAdd span {
+  font-size: 3rem;
+}
+
+button.mainAdd {
+  cursor: pointer;
+  font-size: 1.3rem;
+  border: var(--primary-color) 1px solid;
+  border-radius: 25px;
+  background-color: var(--bg-color);
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
+  transition: ease-in-out 0.3s;
+}
+
+button.mainAdd:hover {
+  scale: 1.1;
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.4);
+}
+
+button.mainAdd:active {
+  scale: 0.95;
+  box-shadow: 0 0px 5px rgba(0, 0, 0, 0.4);
+  opacity: 0.6;
+}
+
+div#historyStat {
+  width: 80%;
+}
+
+div#historyStat ul {
+  justify-content: space-around;
+}
+
+div#historyStat ul li {
+  padding: 15px 25px;
+  border: var(--primary-color) 1px solid;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.4);
+}
+
+.entries .entry .entry-header a span.material-symbols-outlined {
+  font-size: 24px;
+}
+
+/* /----------------------------- HISTORY ADD ----------------------------/ */
+/* /----------------------------- HISTORY UPDATE ----------------------------/ */
+/* /----------------------------- MAIN -----------------------------/ */
+
+main#add,
+main#mainUpdate {
+  height: 85vh;
+}
+
+.containerAdd,
+div#containerUpdate {
+  flex-direction: column;
+}
+
+div.main form {
+  padding: 20px 0;
+}
+
+div.main form label,
+div.main form select {
+  margin: 10px 0;
+}
+
+.containerBackButton {
+  width: 70%;
+  margin: 0 0 0 10%;
+}
+
+div.main {
+  flex-direction: column;
+  background-color: #fff;
+  width: 70%;
+  height: 70%;
+  border-radius: 20px;
+}
+
+div.main h1 {
+  padding-top: 20px;
+}
+
+/* /---------------------------- FORM -------------------------------/ */
+
+div.main form {
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 80%;
+  width: 65%;
+}
+
+div.main form textarea {
+  height: 150px;
+}
+
+#eventType {
+  height: 30px;
+}
+
+#eventDate {
+  height: 30px;
+}
+
+.submitButton {
+  padding: 12px;
+  background-color: #ff5f45;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.validateButton {
+  justify-content: end;
+}
+
+/* /----------------------------- HISTORY DETAILS  ----------------------------/ */
+/* /----------------------------- MAIN -----------------------------/ */
+main#details {
+  height: 85vh;
+}
+
+.containerDetails {
+  width: 60%;
+}
+
+main#details div.container {
+  width: 70%;
+  flex-direction: column;
+}
+
+main#details div.container.disabledContainer,
+div.entry-header.disabledContainer {
+  pointer-events: none;
+  filter: grayscale(1);
+}
+
+.back-link {
+  color: white;
+  text-decoration: underline;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.cardDetails {
+  background-color: white;
+  padding: 50px 50px 80px 50px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cardDetails h2 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.history-id {
+  margin: 10px 0 20px;
+  color: #666;
+  font-size: 0.9em;
+}
+
+/* ----------------- FORM -------------------------- */
+.form-group {
+  text-align: left;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group span {
+  display: block;
+  color: #333;
+  font-size: 0.9em;
+}
+
+textarea {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 0.9em;
+}
+
+.button-group {
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.btn-green {
+  background-color: #00a3cc;
+}
+
+.btn-red {
+  background-color: #d9534f;
+}
+
+div.button-group a.buttonUpdate {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  background-color: #004953;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------- HARDWARE / SOFTWARE -------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------------------------- */
+
+main#mainHardware,
+main#software {
+  min-height: 85vh;
+}
+
+.containerHardware {
+  width: 80%;
+  margin: 20px 20px 20px 20px;
+  position: relative;
+}
+
+.card {
+  background-color: white;
+  border-radius: 15px;
+  padding: 20px 10px 20px 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin: 0 0 0 10%;
+}
+
+.card h1 {
+  font-size: 1.5rem;
+  margin-bottom: 40px;
+}
+
+.item {
+  justify-content: space-between;
+  border-bottom: 1px solid #1a4d5d;
+  padding: 10px 0;
+}
+
+.details {
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+.title {
+  font-size: 0.9rem;
+}
+
+.description {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.quantity,
+.info-bubble {
+  border: 2px solid #1a4d5d;
+  border-radius: 50%;
+  padding: 8px 15px;
+  font-weight: bold;
+}
+
+/* /--------------------------------- Bubble --------------------------------------/ */
+.containerBubble {
+  align-items: start;
+  margin-left: 10px;
+}
+
+.info-bubble {
+  margin-left: 10px;
+}
+
+.item .input-field span {
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.icon {
+  gap: 10px;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------- Delete -------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------------------------- */
+#delete {
+  margin-top: 500px;
+}
+
+#delete a {
+  margin: 30px;
+  color: red;
+}
+
+/* /----------------------------- Popup ---------------------------/ */
+div.deletePopup {
+  position: absolute;
+  z-index: 1;
+  background: #ffffff;
+  width: 350px;
+  padding: 30px;
+  opacity: 0;
+  display: none;
+  border-radius: 8px;
+  border: #000000 1px solid;
+}
+
+div.deletePopup.activated {
+  opacity: 1;
+  display: block;
+}
+
+div.deletePopup button.btn,
+div.deletePopup div.cancelBtn {
+  margin: 10px;
+}
+
+div.deletePopup div.cancelBtn {
+  width: 63px;
+}
+
+div.deletePopup.deletePopupHistory {
+  top: 40vh;
+  right: 20vw;
+  left: 35vw;
+  position: fixed;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------- Details Access -------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------------------------- */
+
+main#Details-main {
+  height: 62vh;
+  position: relative;
+  margin: 105px 0;
+}
+
+div .card h1 {
+  font-size: clamp(0.8rem, 20px, 2rem);
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------- Responsive section -------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------------------------- */
+
+@media (max-width: 1150px) {
+  div#containerUpdate h1 {
+    text-align: center;
+  }
+}
+
+@media (max-width: 900px) {
+  section#historyAddSection div#historyAdd h2 {
+    text-align: center;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 768px) {
+  main section#historyAddSection div#historyAdd h2 {
+    text-align: center;
+    font-size: 1.3rem;
+  }
+
+  #deletePopupHistory {
+    left: 20vw;
+  }
+  .button-group {
+    flex-direction: column;
+    margin: 5px;
+  }
+
+  .buttonUpdate {
+    margin: 5px 0px;
+  }
+}
+
+@media (max-width: 518px) {
+  main section#historyAddSection div#historyAdd button.mainAdd a {
+    padding: 40px 75px;
+  }
+
+  div#containerUpdate h1 {
+    font-size: 1.3rem;
+  }
+
+  div.deletePopup {
+    width: 150px;
+  }
+}

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ubya - Liste des serveur</title>
+  <script src="/script/clients.js"></script>
+  <link rel="stylesheet" href="/style/server.css" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=enhanced_encryption">
+</head>
+
+<body>
+  <%- include('../header'); %>
+
+    <main>
+      <section id="serverAddSection">
+        <div id="serverAdd">
+          <h2>Serveur</h2>
+          <button class="mainAdd">
+            <a href="/server/add">Ajouter un serveur<br /><span>+</span></a>
+          </button>
+          <div id="serverStat">
+            <p>Etat des serveurs :</p>
+            <ul>
+              <li><%- stats.total -%> serveurs</li>
+              <li><%- stats.onLine -%> en ligne</li>
+              <li><%- stats.down -%> en panne</li>
+              <li><%- stats.maintenance -%> en maintenance</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <div class="middle">
+        <form action="/server/search" method="GET" class="search-container">
+          <input type="search" name="query" id="search-input" placeholder="Recherche" />
+          <button class="valid">Valider</button>
+        </form>
+        <a href="/server/servers" class="reset-button">Réinitialiser le filtre</a>
+
+        <div class="filter">
+          <form action="/server/servers" method="GET">
+            <button class="filter-status" type="submit">Filtrer par status</button>
+          </form>
+        </div>
+
+        <div id="servers-container">
+          <% servers.forEach(server=> { %>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-left">
+                  <div class="reference">
+                    <a href="/server/detail/<%-server.ubybox_serial_number -%> ">
+                      Ref Serveur #<%- server.ubybox_serial_number -%></a>
+                  </div>
+                </div>
+                <div class="card-right">
+                  <div class="serverStatInfo">
+                    <span
+                      class="serverColor <% switch (server.id_state) { case 1: %> green <% break; case 2: %> red <% break; case 3: %> orange <% break; default: break; } %>">•
+                    </span>
+                    - <%- server.ubybox_state_name -%>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="card-left">
+                  <div class="name">
+                    <%- server.contract ? server.contract.id_company : 'pas de client rattaché' -%>
+                  </div>
+                </div>
+                <div id="access">
+                  <a href="/server/<%= server.ubybox_serial_number %>/access-confirmationMDP" class="edit-encryption">
+                    <span id="encryption" class="material-symbols-outlined">enhanced_encryption</span>
+                    <p style="text-align: center; margin-right: 4px;">Accès <br>sécurisé</p>
+                  </a>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="menu-burger-footer" onclick="toggleMenu(this)">☰</div>
+                <div class="menu-burger-content" style="display: none;">
+                  <a href="/server/<%- server.ubybox_serial_number -%>/hardware" class="hardware">Hardware</a>
+                  <a href="/server/<%- server.ubybox_serial_number -%>/software" class="software">Software</a>
+                  <a href="/server/<%- server.ubybox_serial_number -%>/history" class="history">Historique</a>
+                  <% if (server.contract) { %>
+                    <a href="/client/detailClient/<%- server.contract.id_company -%>" class="client">Client</a>
+                    <% } else { %>
+                      <a href="/server/addClient/<%- server.ubybox_serial_number -%>/server" class="client">Ajouter un client
+                        +</a>
+                      <% } %>
+                </div>
+
+                <!-- Boutons affichés en desktop -->
+                <div class=" menu-footer">
+                  <a href="/server/<%- server.ubybox_serial_number -%>/hardware" class="hardware">Hardware</a>
+                  <a href="/server/<%- server.ubybox_serial_number -%>/software" class="software">Software</a>
+                  <a href="/server/<%- server.ubybox_serial_number -%>/history" class="history">Historique</a>
+                  <% if(server.contract){ %>
+                    <a href="/client/detailClient/<%- server.contract.id_company -%>" class="client">Client</a>
+                    <% } else { %>
+                      <a href="/server/addClient/<%- server.ubybox_serial_number -%>/server" class="client">Ajouter un client
+                        +</a>
+                      <% } %>
+                </div>
+              </div>
+            </div>
+            <% }) %>
+        </div>
+      </div>
+    </main>
+</body>
+
+</html>

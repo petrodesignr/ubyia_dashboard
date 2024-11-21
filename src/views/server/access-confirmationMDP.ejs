@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Access Confirmation</title>
+    <link rel="stylesheet" href="/style/style.css" />
+    <link rel="stylesheet" href="/style/staff.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  </head>
+  <body>
+    <%- include('../header') -%>
+
+    <main>
+      <form class="login-box" method="POST" >
+        <span class="material-symbols-outlined">lock</span>
+         <% if (message) { %>
+      <p class="error-message" ><%= message %></p>
+    <% } %>
+
+
+        <label for="password">Votre Mot de Password</label>
+        <input type="password" id="password" name="staff_password" required />
+
+        <button type="submit" class="submit-btn">Valider</button>
+      </form>
+    </main>
+  </body>
+</html>

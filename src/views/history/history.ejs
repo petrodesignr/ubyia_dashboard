@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ajouter historique</title>
+    <link rel="stylesheet" href="/style/history.css" />
+    <link rel="stylesheet" href="/style/style.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  </head>
+<body>
+
+    <%- include('../header'); %>
+  
+    <main>
+        <section id="historyAddSection">
+          <div id="historyAdd">
+            <h2>Historique <%- server_id -%></h2>
+            <button class="mainAdd">
+              <a href="/server/<%- server_id -%>/history/add">Ajouter une historique<br><span>+</span></a>
+            </button>
+            <div id="historyStat">
+              <ul>
+                <li><%- histories.length -%> entrée</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+        <section class="entries">
+          <% histories.forEach(history => { %>
+            <div class="entry">
+              <div class="entry-header">
+                  <a  href="/server/<%- server_id -%>/history/details/<%- history.history_id %>"><%- history.history_date -%> - <span class="material-symbols-outlined">
+                    person
+                    </span> <%- history.staff_first_name -%></a>
+                    <div class="icons">
+                      <% if(staff.id_role == 1){ %>  
+                    <a href="/server/<%- server_id -%>/history/update/<%- history.history_id %>" class="material-symbols-outlined"> edit_square </a> 
+
+                  <a class="material-symbols-outlined deleteIcon" >delete </a>
+                      
+                      
+                      <% }%>
+                    </div>
+              </div>
+              <p><%- history.event_type_name -%></p>
+              <!-- POPUP -->
+              <% if(staff.id_role == 1 ){ %>  
+        <div class="deletePopup deletePopupHistory " id="deletePopupHistory">
+          <form method="post" action="/server/<%- server_id -%>/history/delete/<%- history.history_id %>">
+              <h2>Etes vous sur de supprimer cet historique ?</h2>
+              <div class="btn btn-green cancelBtn" >Annuler</div>
+              <button type="submit" class="btn btn-red deleteBtn" >Supprimer</button>
+          </form>
+      </div>
+      <% }%>
+          </div>
+          
+          <% }) %>
+         
+      </section>
+        
+      </main>
+      <script src="/script/historyPopup.js"></script>
+  </body>
+
+  </html>

@@ -1,0 +1,572 @@
+@import url('./style.css');
+
+/************Page liste des clients********/
+.head,
+.middle {
+    color: var(--primary-color);
+}
+
+.head,
+.addClient,
+#form {
+    background-color: var(--bg-color);
+    padding: 90px 0 40px;
+}
+
+h1,
+.add,
+.info,
+.modal-content,
+.online,
+a.servers,
+a.detail,
+a.hardware,
+a.software,
+a.history,
+a.client,
+a.link,
+a.serverLink {
+    text-align: center;
+}
+
+.add {
+    min-width: 2vw;
+    max-width: 13vw;
+    min-height: 2vw;
+    max-height: 27vw;
+    border-radius: 25px;
+    margin: 50px auto;
+    padding: 30px 30px;
+    font-size: clamp(1rem, 1.2rem, 1.3rem);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    border: 1px solid var(--primary-color);
+
+}
+
+/* Agrandir légèrement la div "add" au survol */
+.add:hover {
+    transform: scale(1.10);
+    /* Augmentation de la taille à 110% */
+}
+
+.info,
+a.servers,
+a.detail,
+a.hardware,
+a.software,
+a.history,
+a.client {
+    border: 1px solid var(--primary-color);
+    width: 65px;
+}
+
+/**** Informations principales ****/
+.primary-info {
+    margin-left: 18%;
+    font-size: clamp(0.7rem, 0.8rem, 1rem);
+}
+
+.primary-info,
+.form-group,
+.gender-options,
+.gender-item,
+.align,
+input[type="checkbox"]:checked~.modal,
+.buttons-content,
+a.link,
+#clientServer-container,
+.counter {
+    display: flex;
+}
+
+.info {
+    width: 20%;
+    margin-right: 7%;
+    padding: 15px 10px;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4);
+    font-size: clamp(0.8rem, 0.9rem, 1.1rem);
+}
+
+/**** Zone du milieu ****/
+button.validate,
+.deleteOne,
+a.link,
+a.serverLink,
+.update,
+#clientServer-container {
+    border-radius: 10px;
+}
+
+button.validate {
+    color: var(--bg-color);
+}
+
+button.validate,
+.delete,
+.cancel,
+.update {
+    background-color: transparent;
+    border: none;
+}
+
+.filter-date {
+    margin: 0 0 0 1%;
+}
+
+button.valid,
+button.validate {
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background-color: var(--fourth-color);
+    height: 45px;
+    padding: 12px;
+    width: 80px;
+}
+
+/***********formulaire d'ajout'***********/
+.addClient,
+#form {
+    text-align: left;
+    min-width: 2vw;
+    max-width: 60vw;
+    margin: 155px auto;
+    padding: 25px 90px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+    font-size: 18px;
+    position: relative;
+}
+
+#form {
+    margin: 160px auto;
+    padding: clamp(5px, 10vw, 30px);
+}
+
+form .separation,
+a.link {
+    height: 1px;
+    background-color: var(--secondary-color);
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.form-group {
+    flex-direction: column;
+    /* Alignement des éléments en colonne */
+    margin-bottom: 3px;
+    /* Espacement entre les groupes de formulaire */
+}
+
+.form-group label,
+select {
+    margin: 10px 0 0 0;
+}
+
+.form-group input,
+select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+
+.gender-options {
+    margin-top: 10px;
+    /* Ajoute un peu d'espace au-dessus des options */
+}
+
+.gender-item {
+    flex-direction: column;
+    /* Aligne le label et l'input verticalement */
+    align-items: center;
+    /* Centre le contenu de chaque colonne */
+}
+
+/*****effet pop up*******/
+.close-popup,
+.cancel {
+    background-color: gray;
+    padding: 5px;
+    color: var(--bg-color);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0px;
+    left: 0;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    width: 100%;
+}
+
+/* Contenu de la pop-up */
+.modal-content {
+    background-color: var(--bg-color);
+    padding: 20px;
+    border-radius: 15px;
+    top: 430px;
+    position: absolute;
+}
+
+.close-popup,
+.cancel,
+.delete,
+.cancel,
+.deleteOne,
+a.link,
+.update {
+    cursor: pointer;
+}
+
+/********* Cartes **********/
+
+.status {
+    width: 25px;
+    height: 15px;
+    background-color: var(--third-color);
+    border-radius: 15px;
+}
+
+select,
+option,
+.form-group input {
+    width: 98%;
+}
+
+/************Page pour update les informations company******/
+/****les différentes icones de google font***/
+.material-symbols-outlined {
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
+}
+
+.align {
+    align-items: center;
+    position: relative;
+}
+
+/*********personnalisation du formulaire de la page*********/
+.form-group input {
+    padding: 10px 0px 10px 2px;
+    background-color: transparent;
+}
+
+/* Style pour rendre la pop-up visible lorsqu'elle est déclenchée */
+.buttons-container,
+.buttons-content {
+    margin: 100px 10px 0;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.buttons-container {
+    margin: 40px;
+}
+
+.alert-danger {
+    color: #ffffff;
+    background-color: #ab1515;
+    font-weight: bold;
+    text-align: center;
+    font-size: 20px;
+    margin: 125px auto;
+    min-width: 2vw;
+    max-width: 30vw;
+    min-height: 2vh;
+    max-height: 15vh;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.delete,
+.cancel {
+    padding: 10px 20px;
+    margin: 5px;
+}
+
+.delete,
+.deleteOne {
+    background-color: #ab1515;
+    color: var(--bg-color);
+    margin: 10px 0 20px 0;
+}
+
+.deleteOne {
+    position: absolute;
+    right: 0%;
+    min-width: 7vw;
+    max-width: 50vw;
+    margin-right: 3%;
+    text-align: center;
+    padding: 10px;
+    top: 60%;
+}
+
+a.link {
+    color: var(--bg-color);
+    font-size: 1.1rem;
+    padding: 10px 20px;
+    margin-left: 30%;
+    max-width: 35%;
+    justify-content: center;
+    position: relative;
+    flex-direction: row;
+    height: auto;
+}
+
+.serverLink-container {
+    display: flex;
+    justify-content: center;
+    /* Centre horizontalement */
+}
+
+.serverLink {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    height: auto;
+    color: var(--bg-color);
+    background-color: var(--secondary-color);
+    position: relative;
+}
+
+.buttons-content {
+    margin: 0 15px;
+}
+
+button.update {
+    margin: 25px 0;
+}
+
+.update {
+    padding: 10px 20px;
+    color: var(--bg-color);
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    background-color: var(--fourth-color);
+}
+
+#gender {
+    justify-content: space-between;
+    display: flex;
+    position: relative;
+}
+
+/************interface liste server clients'***********/
+#clientServer-container {
+    min-width: 5vw;
+    max-width: 70vw;
+    margin: 100px auto;
+    background-color: var(--bg-color);
+    padding: 20px;
+    flex-wrap: wrap;
+    align-content: space-around;
+    align-items: flex-start;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4);
+    flex-direction: column;
+    position: relative;
+}
+
+.countServer {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 0;
+    margin: 10px 0;
+    min-width: 2vw;
+    max-width: 10vw;
+}
+
+.count {
+    background-color: var(--bg-color);
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4);
+    padding: 10px;
+    border: 1px solid var(--primary-color);
+}
+
+h2 {
+    font-size: clamp(10px, 5vw, 23px);
+}
+
+.card-header {
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.card .card-header .card-left {
+    width: 50%;
+    text-align: left;
+}
+
+.card .card-header .card-right {
+    justify-content: center;
+    width: 20%;
+    text-align: right;
+}
+
+.card-body {
+    text-align: left;
+}
+
+.name {
+    margin: 13px 0;
+}
+
+.card-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 2px;
+}
+
+#access {
+    left: 85%;
+    position: absolute;
+    text-align: center;
+    top: 30%;
+    margin: 0 0 0 2%;
+}
+
+#encryption {
+    margin-right: 29%;
+}
+.edit-encryption {
+    align-items: center;
+    gap: 8px;
+    flex-direction: column;
+    position: relative;
+    right: 6%;
+    justify-content: center;
+    display: flex;
+}
+@media only screen and (max-width: 480px) {
+    .edit-encryption {
+        right: 45%;
+    }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 600px) {
+
+    /****page serveur client*****/
+    .edit-encryption {
+        right: 20%;
+    }
+    #access {
+        left: 80%;
+        text-align: center;
+        margin: 0 0 0 2%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+
+    /*******page détail des clients****/
+    a.link {
+        margin-left: 20%;
+    }
+
+    /*****page serveur des clients*****/
+    .deleteOne {
+        min-width: 4vw;
+        max-width: 18vw;
+        margin-right: 2%;
+        padding: 5px;
+        top: 64%;
+    }
+
+    .form-group {
+        font-size: clamp(0.8rem, 0.9rem, 1.1rem);
+    }
+
+    .form-group input {
+        padding: 5px 0 5px 2px;
+    }
+}
+@media (max-width: 768px) {
+    .buttons-container {
+        margin: 100px 10px 0;
+    }
+    .alert-danger {
+        margin: 200px 0 0 115px;
+        padding: 5px;
+        font-size: 12px;
+    }
+    .primary-info {
+        flex-wrap: wrap;
+        height: auto;
+        flex-direction: column;
+        margin-left: 7%;
+        align-items: center;
+        justify-content: space-around;
+    }
+}
+@media (max-width: 780px) {
+    /*******début page serveur des clients***********/
+    /* Cacher les boutons du menu du footer */
+    .menu-footer a {
+        display: none;
+    }
+
+    /* Afficher le menu burger */
+    .menu-burger-footer {
+        display: block;
+        cursor: pointer;
+        font-size: 16px;
+        color: var(--primary-color);
+        padding: 5px;
+        background-color: var(--bg-color);
+        border-radius: 50px;
+    }
+
+    /* Affichage du menu burger (liens cachés dans un menu déroulant) */
+    .menu-burger-content {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 colonnes avec un partage égal */
+        gap: 10px;
+        /* Espace entre les éléments */
+        background-color: var(--bg-color);
+        position: absolute;
+        left: 10px;
+        top: 102%;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+        padding: 10px;
+        border-radius: 10px;
+        z-index: 1;
+    }
+
+    .menu-burger-content a {
+        text-align: center;
+        padding: 10px;
+        background-color: var(--bg-color);
+        color: var(--primary-color);
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+    .menu-burger-content a:hover {
+        background-color: var(--primary-color);
+        color: var(--bg-color);
+    }
+
+    /*******fin page serveur des clients***********/
+}
+
+@media only screen and (min-width: 601px) and (max-width: 945px) {
+
+    /*****début page serveur des clients*****/
+    #access {
+        left: 80%;
+        width: 65px;
+    }
+}

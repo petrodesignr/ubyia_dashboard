@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hardware</title>
+    <link rel="stylesheet" href="/style/history.css" />
+    <link rel="stylesheet" href="/style/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+  </head>
+  <body>
+    <%- include('../header.ejs') -%>
+    <main id="mainHardware">
+      <div class="containerHardware">
+        <a href="/server/servers" class="back-button">retour</a>
+        <div class="card" style="margin: 0 0 0 10%;">
+          <h1>Hardware # <%- serverId -%> </h1>
+
+          <div class="item">
+            <div class="details">
+              <p class="title">CPU</p>
+              <p class="description"> <%- hardware.cpu_name -%> </p>
+            </div>
+            <div class="containerBubble">
+              <div class="quantity">x1</div>
+              <div class="info-bubble"><%- hardware.cpu_cores -%> coeurs</div>
+              <div class="info-bubble"><%- hardware.cpu_threads -%> threads</div>
+            </div>
+          </div>
+
+          <div class="item">
+            <div class="details">
+              <p class="title">GPU</p>
+              <p class="description"><%- hardware.gpu_name -%></p>
+            </div>
+            <div class="containerBubble">
+              <div class="quantity">x1</div>
+              <div class="info-bubble"><%- hardware.gpu_memory_size_gb -%> gb</div>
+              <div class="info-bubble"><%- hardware.gpu_speed_mhz -%> mhz</div>
+            </div>
+          </div>
+
+          <div class="item">
+            <div class="details">
+              <p class="title">RAM</p>
+              <p class="description"> <%- ram.type -%> </p>
+            </div>
+            <div class="containerBubble">
+              <div class="info-bubble"><%- ram.quantity -%> Go</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style/staff.css" />
+  <link rel="stylesheet" href="/style/style.css" />
+    <title>creation de compte</title>
+  </head>
+  <body>
+    <main>
+   
+      <form class="creation-box" method="POST">
+        <h3>Creer un compte</h3>
+        
+    <% if (message) { %>
+      <p class="error-message" style="color: red;"><%= message %></p>
+    <% } %>
+        <label for="nom">Nom</label>
+        <input type="text" id="nom" name="staff_last_name" required />
+
+        <label for="prénom">Prénom</label>
+        <input type="text" id="prénom" name="staff_first_name" required />
+
+        <label for="email">Email</label>
+        <input type="text" id="email" name="staff_email" required />
+
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="staff_password" required />
+
+        <label for="telephone">N°Téléphone</label>
+        <input type="tel" id="telephone" name="staff_phone" required />
+
+        <button type="submit" class="submit-btn">Valider</button>
+      </form>
+    </main>
+  </body>
+</html>

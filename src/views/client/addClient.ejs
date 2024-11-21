@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style/client.css">
+    <title>Ajouter un client</title>
+</head> 
+
+<body>
+    <%- include('../header.ejs') %>
+        <form class="addClient" action="addClient" method="POST">
+            <h1 style="font-size: clamp(10px, 7vw, 30px);">Ajouter un client</h1>
+            <div class="separation"></div>
+
+            <!--permet d'afficher un message sur le formulaire pour informer pourquoi le client n'a pas été ajouté-->
+            <% if (typeof message !=='undefined' ) { %>
+                <input type="checkbox" id="error-popup" style="display: none;" checked>
+                <div class="modal">
+                    <div class="modal-content">
+                        <h2>Ajout impossible</h2>
+                        <p>
+                            <%= message %>
+                        </p><br>
+                        <label for="error-popup" class="close-popup">Fermer</label>
+                    </div>
+                </div>
+                <% } %>
+
+                    <div class="form-group">
+                        <label for="gender">Genre</label>
+                        <div class="gender-options">
+                            <div class="gender-items">
+                                <label for="male">Homme</label>
+                                <input type="radio" id="male" name="company_gender" value="homme">
+                            </div>
+                            <div class="gender-items">
+                                <label for="female">Femme</label>
+                                <input type="radio" id="female" name="company_gender" value="femme">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastname">Nom</label>
+                        <input type="text" id="lastname" name="company_lastname" required><br>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="firstname">Prénom</label>
+                        <input type="text" id="firstname" name="company_firstname" required><br>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="position">Poste</label>
+                        <input type="text" id="position" name="company_position" required><br>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="company_email" autocomplete="email" required><br>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">RS Social</label>
+                        <input type="text" id="name" name="company_name" autocomplete="organization" required><br>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Numéro de téléphone</label>
+                        <input type="tel" id="phone" name="company_phone" autocomplete="tel" required><br>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="siret">Siret</label>
+                        <input type="text" id="siret" name="company_siret" autocomplete="off" required><br>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Adresse</label>
+                        <input type="text" id="address" name="company_address" autocomplete="street-address"required><br>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="postal_code">CP</label>
+                        <input type="text" id="postal_code" name="company_postal_code" autocomplete="postal-code"required><br>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="city">Ville</label>
+                        <input type="text" id="city" name="company_city" autocomplete="address-level2" required><br>
+                    </div>
+
+                    <div class="buttons-content">
+                        <button class="validate" type="submit">Valider</button>
+                    </div>
+        </form>
+
+</body>
+
+</html>

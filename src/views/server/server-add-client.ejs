@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ubya - Liste des serveur</title>
+
+  <link rel="stylesheet" href="/style/server.css" />
+</head>
+
+<body>
+  <%- include('../header'); %>
+    <main>
+      <section id="containerFormServerAdd">
+        <div id="contentFormServerAdd">
+          <div class="linkBackContainer">
+            <a href="/server/servers">retour</a>
+          </div>
+          <form id="formAddServer" method="post">
+            <% if (mode==="server" ) { %>
+              <h2>Ajouter un client au serveur #<%- serverId -%></h2>
+              <div id="containerformAddServerSection">
+                <div class="formAddServerSection">
+                  <label for="clientId">Clients:</label>
+                  <select name="clientId" class="formAddServerSelect" id="">
+                    <% clientsArray.forEach(clientInf=> { %>
+                      <option value="<%- clientInf.company_id -%>">
+                        <%- clientInf.company_name -%>
+                      </option>
+                      <% }) %>
+                  </select>
+                  <% } else if (mode==="client" ) { %>
+                    <h2>Ajouter un serveur au client #<%- clientId -%></h2>
+                    <div id="containerformAddServerSection">
+                      <div class="formAddServerSection">
+                        <label for="serverId">Serveur:</label>
+                        <select name="serverId" class="formAddServerSelect" id="">
+                          <% servers.forEach(serverInf=> { %>
+                            <option value="<%- serverInf.ubybox_serial_number -%>">
+                              <%- serverInf.ubybox_serial_number -%>
+                            </option>
+                            <% }) %>
+                        </select>
+                        <% } %>
+                          <textarea name="clause" id="clause" class="clauseServer"
+                            placeholder="clause du contrat"></textarea>
+
+                          <button type="submit" class="valid">Valider</button>
+                      </div>
+                    </div>
+                </div>
+              </div>
+          </form>
+        </div>
+      </section>
+    </main>
+</body>
+
+</html>

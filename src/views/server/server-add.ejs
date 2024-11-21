@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ubya - Liste des serveur</title>
+
+    <link rel="stylesheet" href="/style/server.css" />
+  </head>
+
+  <body>
+    <%- include('../header') -%>
+
+    <main>
+      <section id="containerFormServerAdd">
+        <div id="contentFormServerAdd">
+          <div class="linkBackContainer">
+            <a href="/server/servers">retour</a>
+          </div>
+
+          <form id="formAddServer" method="post">
+            <h2>Ajouter un serveur</h2>
+            <div id="containerformAddServerSection">
+              <div class="formAddServerSection">
+                <label for="cpu">cpu:</label>
+                <select name="cpu" class="formAddServerSelect" id="">
+                  <% cpu.forEach(element => { %>
+                  <option value="<%- element.cpu_id -%>">
+                    <%- element.cpu_name -%>
+                  </option>
+                  <% }) %>
+                </select>
+                <label for="gpu">gpu:</label>
+                <select name="gpu" class="formAddServerSelect" id="">
+                  <% gpu.forEach(element => { %>
+                  <option value="<%- element.gpu_id -%>">
+                    <%- element.gpu_name -%>
+                  </option>
+                  <% }) %>
+                </select>
+                <label for="ssd">vitesse mémoire:</label>
+                <select name="ssd" class="formAddServerSelect" id="">
+                  <option value="4000">4000Mo/s</option>
+                  <option value="5000">5000Mo/s</option>
+                  <option value="6000">6000Mo/s</option>
+                </select>
+                <label for="ram">type de ram:</label>
+                <select name="ram" class="formAddServerSelect" id="">
+                  <option value="ddr4">ddr4</option>
+                  <option value="ddr5">ddr5</option>
+                </select>
+                <button class="attachement">Télécharger une facture</button>
+              </div>
+              <div class="formAddServerSection">
+                <label for="ssdQuantity">Quantité SSD</label>
+                <input
+                  type="range"
+                  name="ssdQuantity"
+                  id="ssdQuantity"
+                  value="1"
+                  min="1"
+                  max="5"
+                  step="1"
+                />
+                <div class="rangeInfo">
+                  <output id="ssdQuantityOutput"></output><span> GO</span>
+                </div>
+
+                <label for="ramQuantity">Quantité RAM</label>
+                <input
+                  type="range"
+                  name="ramQuantity"
+                  id="ramQuantity"
+                  value="1"
+                  min="1"
+                  max="4"
+                  step="1"
+                />
+                <div class="rangeInfo">
+                  <output id="ramQuantityOutput"></output><span> GO</span>
+                </div>
+                <button class="valid" type="submit">Valider</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+    <script src="/script/serverAdd.js"></script>
+  </body>
+</html>

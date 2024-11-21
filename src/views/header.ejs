@@ -1,0 +1,38 @@
+<head>
+  <!-- Add Google Material Icons link in the <head> section -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<header>
+   <% if (staff) { %>
+      
+      <a id="staffHeader" href="/staff/account" ><span class="material-icons">person</span><br><%=staff.staff_last_name %></a>
+      
+    <% } %>
+  <h1>
+    <img src="/media/logo_ubya_blanc.png" alt="logo ubya" />
+  </h1>
+   <!-- Menu burger -->
+   <div class="burger-menu" id="burger-menu">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <nav >
+    <ul id="nav-list">
+      
+      <% if (staff) { %>
+      
+        <li><a id="staffHeaderMobile" href="/staff/account" > <%= staff.staff_first_name +" "+ staff.staff_last_name %></a></li>
+        
+      <% } %>
+      <li><a href="/tickets/dashboard">Liste tickets</a></li>
+      <li><a href="/server/servers">Liste serveur</a></li>
+      <li><a href="/client/clients">Liste client</a></li>
+      <li><a href="/staff/logout">Deconnexion</a></li>
+    </ul>
+  </nav>
+ 
+  
+</header>
+<script src="/script/burgerMenu.js"></script>

@@ -1,0 +1,150 @@
+:root {
+  --primary-color: #1a4d5d;
+  --secondary-color: #1babb6;
+  --third-color: #40b184;
+  --fourth-color: #ea5238;
+  --bg-color: #fff;
+  --primary-font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* ------------------------------------------------------------------------- */
+ /* ---------------------------Login Styles--------------------------------- */
+ /* ------------------------------------------------------------------------- */
+main{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+.creation-box {
+  background:var(--bg-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 150px;
+  text-align: center;
+  width: 70%;
+  height: 45%;
+}
+
+.update-box {
+  background:var(--bg-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 150px;
+  margin-left: 100px;
+  text-align: center;
+  width: 70%;
+  
+} 
+
+form h3 {
+  font-size: 36px;
+  margin-top: -100px;
+  
+}
+
+label {
+  display: block;
+  text-align: left;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+input {
+  width: 90%;
+  padding: 20px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* style bouton */
+.submit-btn {
+  width: 20%;
+  padding: 12px;
+  background-color: var(--fourth-color);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.update-btn {
+  width: 20%;
+  padding: 12px;
+  background-color: var(--fourth-color);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+
+/* style message d'erreur */
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+.login-box {
+   background:var(--bg-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 150px;
+  text-align: center;
+  width: 70%;
+  height:40%;
+}
+
+.links {
+  margin-top: 10px;
+}
+
+.links a {
+  color: #00334d;
+  font-size: 20px;
+  margin-right: 15px;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+
+/* media queries */
+@media  (max-width: 1200px) {
+  .submit-btn {
+    width: 50%;
+  }
+  form h3 {
+    
+    font-size: 1.2em; /* Ajuste la taille selon tes besoins */
+  
+}
+.login-box,.creation-box {
+
+  padding: 150px 50px 200px 50px;
+  text-align: center;
+  height: 42%;
+  margin-top: 0px;
+}
+.card{
+  margin-top: 100px;
+}
+div.links{
+  display: flex;
+  flex-direction: column;
+}
+.update-box {
+  margin-left: 5px;
+  padding: 150px 50px 150px 50px;
+  margin-bottom: 90px;
+}
+.update-btn {
+  width: 60%;
+}
+
+}

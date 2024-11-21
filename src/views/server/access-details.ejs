@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Access Details</title>
+    <link rel="stylesheet" href="/style/history.css" />
+    <link rel="stylesheet" href="/style/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  </head>
+  <body>
+    <%- include('../header.ejs') -%>
+    <main id="Details-main">
+      <div>
+        <div class="containerBackButton"><a href="/server/servers" class="back-button">Retour</a></div>
+        <div class="card" style="margin: 0 0 0 10%;">
+          <h1>Access: <%= server_id %></h1>
+          <div class="item">
+            <p class="description">Clés SSH</p>
+            <div class="input-field">
+              <span id="ssh-key" data-value="<%= server.ubybox_ssh_key %>">••••••••••••••</span>
+            </div>
+            <div class="icon">
+            <a href="#" class="material-symbols-outlined" onclick="copyToClipboard('ssh-key')"> content_copy  </a>
+            <a href="#" class="material-symbols-outlined" id="ssh-visibility-toggle"  onclick="toggleVisibility('ssh-key', this)"> visibility </a>
+            <a href="/server/<%= server_id %>/access-details/ssh-key-update" class="material-symbols-outlined"> edit_square </a>
+            </div>
+          </div>
+          <div class="item">
+            <p class="description">Address IP</p>
+            <div class="input-field">
+              <span id="ip-address" data-value="<%= server.ubybox_address_ip %>">••••••••••••••</span>
+             
+            </div>
+             <div class="icon">
+              <a href="#" class="material-symbols-outlined" onclick="copyToClipboard('ip-address')">content_copy</a>
+              <a href="#" class="material-symbols-outlined" onclick="toggleVisibility('ip-address', this)">visibility</a>
+              <a href="/server/<%= server_id %>/access-details/address-ip-update" class="material-symbols-outlined">edit_square</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  <script src="/script/accessDetails.js"></script> 
+  </body>
+</html>

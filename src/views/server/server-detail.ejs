@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ubya - detail des serveur</title>
+
+  <link rel="stylesheet" href="/style/server.css" />
+</head>
+
+<body>
+  <%- include('../header'); %>
+
+    <main id="mainDetail">
+      <section id="containerDetailServerAdd">
+        <div id="contentDetailServerAdd">
+          <div class="linkBackContainer">
+            <a href="/server/servers">retour</a>
+          </div>
+          <ul id="serverDetail">
+            <li>
+              <h2>numero de serie : <%- server.ubybox_serial_number -%></h2>
+            </li>
+            <li>cpu: <%- server.cpu_name -%></li>
+            <li>gpu: <%- server.gpu_name -%></li>
+            <li>
+              client: <%- server.contract ? server.contract.id_company : 'pas de client rattaché' -%>
+            </li>
+            <li>status : <%- server.ubybox_state_name -%> <span
+                  class="serverColor <% switch (server.id_state) { case 1: %> green <% break; case 2: %> red <% break; case 3: %> orange <% break; default: break; } %>">•
+                </span> </li>
+            <li id="buttonDetailSection">
+              <a href="/server/update/<%- server.ubybox_serial_number -%>">
+                mettre a jour
+              </a>
+              <button class="valid">
+                Supprimer
+              </button>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section id="deletePopupServer">
+        <form action="/server/delete/<%- server.ubybox_serial_number -%>" method="post">
+          <h2>Voulez-vous supprimer le serveur <%- server.ubybox_serial_number -%> </h2>
+          <div>
+            <a id="cancelPopup">non</a>
+            <button type="submit" class="valid">oui</button>
+          </div>
+        </form>
+      </section>
+    </main>
+    <script src="/script/popUpDeleteDetail.js"></script>
+</body>
+
+</html>

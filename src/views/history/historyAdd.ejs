@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ajouter historique</title>
+    <link rel="stylesheet" href="/style/history.css" />
+    <link rel="stylesheet" href="/style/style.css" />
+
+  </head>
+  <body>
+    <%- include('../header.ejs') -%>
+    <main id="add">
+      <!-- Bouton retour -->
+      <div class="containerAdd">
+        <div class="containerBackButton">
+          <a href="/server/<%- server_id -%>/history" class="back-button"
+            >Retour</a
+          >
+        </div>
+        <div class="main">
+          <h1>Ajout d'historique</h1>
+
+          <form action="/server/<%- server_id -%>/history/add" method="post">
+            <!-- Menu déroulant pour le type d'événement  -->
+            <label for="eventType">Type d'événement :</label>
+            <select id="eventType" name="id_event_type">
+              <option value="">--Sélectionnez un type--</option>
+              <option value="1">Panne</option>
+              <option value="2">Intervention</option>
+              <option value="3">Mise à jour</option>
+            </select>
+
+            <!-- Champ pour sélectionner la date -->
+            <label for="eventDate">Date de l'événement :</label>
+            <input type="datetime-local" id="eventDate" name="history_date" />
+            <!-- Creer une checkbox qui renseigne la date et l'heure actuelle au clic -->
+            <label for="dateCheckbox" 
+              >Cochez pour renseigner la date et l'heure actuelle :
+            </label>
+            <input type="checkbox" id="dateCheckbox" name="history_date_checkbox"/>
+            <p id="dateTimeDisplay"></p>
+
+            <!-- Champ pour entrer une description -->
+            <label for="eventDescription">Description :</label><br />
+            <textarea
+              id="eventDescription"
+              name="history_details"
+              rows="4"
+              cols="50"
+              placeholder="Entrez une description de l'événement ici..."
+            ></textarea>
+
+            <!-- Bouton pour télécharger un document -->
+            <label for="eventDocument">Télécharger un document :</label>
+            <input type="file" id="eventDocument" name="history_attachment" />
+
+            <!-- Bouton pour valider le formulaire -->
+            <div class="validateButton">
+              <button class="submitButton" type="submit">Valider</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+    <script src="/script/historyAdd.js"></script>
+  </body>
+</html>

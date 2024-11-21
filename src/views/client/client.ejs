@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <link rel="stylesheet" href="/style/client.css">
+    <title>Liste Clients</title>
+</head>
+
+<body>
+    <%- include('../header.ejs') -%>
+        <div class="head">
+            <h1 style="font-size:xxx-large">Clients</h1>
+            <div class="add"> <a href="/client/addClient"> Ajouter un client <br><span style="font-size:3rem;"> +
+                    </span></a></div>
+            <div class="primary-info">
+                <div class="info">
+                    <%= countClient %> Clients
+                </div>
+                <div class="info">0 défauts de paiements</div>
+                <div class="info">2 nouveaux clients</div>
+            </div>
+        </div>
+        <div class="middle">
+            <form action="/client/search" method="GET" class="search-container">
+                <input type="search" name="query" id="search-input" placeholder="Rechercher">
+                <button class="valid" type="submit">Valider</button>
+            </form>
+            <a href="/client/clients" class="reset-button">Réinitialiser le filtre</a>
+
+
+            <div class="filter">
+                <form action="/client/clients" method="GET">
+                    <button class="filter-status" type="submit">Filtrer par status &nbsp;&nbsp;&nbsp;|</button>
+                    <button class="filter-date" type="submit" name="sortBy" value="date_desc">Date</button>
+                </form>
+            </div>
+
+            <div id="clients-container">
+                <% clients.forEach(client=> { %>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-left">
+                                <div class="reference">Ref Client #<%= client.company_id %>
+                                </div>
+                            </div>
+                            <div class="card-right">
+                                <div class="status"></div>
+                                <div class="online">En ligne</div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="name">Société : <%= client.company_name %>
+                            </div> 
+                            <% if (client.company_gender==='homme' ) { %> <!--vérifie le genre si homme sinon -->
+                                <div class="name">M. <%= client.company_lastname %>
+                                        <%= client.company_firstname %>
+                                </div>
+                                <% } else { %>
+                                    <div class="name">Mme. <%= client.company_lastname %>
+                                            <%= client.company_firstname %>
+                                    </div>
+                                    <% } %>
+                                        <div class="name">Contact : <a href="mailto:<%= client.company_email %>">
+                                                <%= client.company_email %>
+                                            </a></div>
+                                        <div class="name">
+                                            <%= client.company_city %>
+                                        </div>
+                                        <div class="name">Date :
+                                            <!--permet d'avoir la date d'affichée sans le jour ni l'heure-->
+                                            <%= new Date(client.company_date_create).toLocaleDateString('fr-FR') %>
+                                        </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="/client/clientServer/<%= client.company_id %>" class="servers">Serveurs</a>
+                            <a href="/client/detailClient/<%= client.company_id %>" class="detail">Détail</a>
+
+                        </div>
+                    </div>
+                    <% }) %>
+            </div>
+        </div>
+</body>
+
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <link rel="stylesheet" href="/style/client.css">
+    <script src="/script/clients.js"></script>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=enhanced_encryption">
+    <title>Liste des serveurs du client</title>
+</head>
+
+<body style="min-height: 100vh;">
+
+    <%- include('../header.ejs') -%>
+
+        <div id="clientServer-container">
+            <h2>Serveur(s) du client #<%= clients.company_id %>
+            </h2>
+            <div class="countServer">
+                <div class="count" style="width: 75px;">
+                    <%= countClientServer %> serveur(s)
+                </div>
+            </div>
+
+            <% if (countClientServer> 0) { %>
+                <% servers.forEach((server)=> { %>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="left-section">
+                                <h3 class="reference">Référence serveur <%= server.ubybox_serial_number %>
+                                </h3>
+                            </div>
+                            <div class="card-right">
+                                <div class="status"></div>
+                                <div class="online" style="font-size: clamp(0.6rem, 0.8rem, 1.1rem);">En ligne</div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="name">
+                                <%= clients.company_name %>
+                            </div>
+                            <div class="card-right" id="access">
+                                <a href="/server/<%= server.ubybox_serial_number %>/access-confirmationMDP"
+                                    class="edit-encryption">
+                                    <span id="encryption" class="material-symbols-outlined">enhanced_encryption</span>
+                                    <p style="text-align: center; margin-right: 20px;">Accès <br>sécurisé</p>
+                                </a>
+
+                            </div>
+                            <% if (clients.company_gender==='homme' ) { %>
+                                <div class="name">M. <%= clients.company_lastname %>
+                                        <%= clients.company_firstname %>
+                                </div>
+                                <% } else { %>
+                                    <div class="name">Mme. <%= clients.company_lastname %>
+                                            <%= clients.company_firstname %>
+                                    </div>
+                                    <% } %>
+                                        <div class="name"><a href="mailto:<%= clients.company_email %>">
+                                                <%= clients.company_email %>
+                                            </a>
+                                        </div>
+                                        <div class="city">
+                                            <%= clients.company_city %>
+                                                <div class="card-right">
+                                                    <label for="delete-confirm-<%= server.ubybox_serial_number %>"
+                                                        class="deleteOne">
+                                                        Dissocier le serveur</label>
+                                                    <input type="checkbox"
+                                                        id="delete-confirm-<%= server.ubybox_serial_number %>"
+                                                        style="display: none;">
+
+                                                    <!-- Pop-up -->
+                                                    <div class="modal">
+                                                        <div class="modal-content">
+                                                            <h2>Êtes-vous sûr de vouloir dissocier ce serveur ?</h2>
+                                                            <!-- cela permet de faire la liaison entre l'id_company et celui du serveur, 
+                                                            ainsi le bouton va supprimer l'id company de la table et le serveur en conséquence ne sera plus lié -->
+                                                            <form
+                                                                action="/client/clientServer/<%= clients.company_id %>/<%= server.ubybox_serial_number %>?_method=PUT"
+                                                                method="POST" class="inline-form">
+                                                                <input type="hidden" name="_method" value="PUT">
+                                                                <button class="delete"
+                                                                    type="submit">Oui,dissocier</button>
+                                                            </form>
+                                                            <label
+                                                                for="delete-confirm-<%= server.ubybox_serial_number %>"
+                                                                class="cancel">Annuler</label>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                        </div>
+                        </div>
+
+                        <div class="card-footer">
+                            <!-- Menu burger pour mobile -->
+                            <!--  ajouter this au onclick permet de cibler le menu de la card concernée au niveau de l'affichage -->
+                            <div class="menu-burger-footer" onclick="toggleMenu(this)">☰</div>
+
+                            <!-- Liens du menu burger cachés dans un menu déroulant -->
+                            <div class="menu-burger-content" style="display: none;">
+                                <a href="/server/<%- server.ubybox_serial_number -%>/hardware"
+                                    class="hardware">Hardware</a>
+                                <a href="/server/<%- server.ubybox_serial_number -%>/software"
+                                    class="software">Software</a>
+                                <a href="/server/<%= server.ubybox_serial_number %>/history"
+                                    class="history">Historique</a>
+                                <a href="/client/detailClient/<%= clients.company_id %>" class="client">Client</a>
+                            </div>
+
+                            <!-- Boutons affichés en desktop -->
+                            <div class="menu-footer">
+                                <a href="/server/<%- server.ubybox_serial_number -%>/hardware"
+                                    class="hardware">Hardware</a>
+                                <a href="/server/<%- server.ubybox_serial_number -%>/software"
+                                    class="software">Software</a>
+                                <a href="/server/<%= server.ubybox_serial_number %>/history"
+                                    class="history">Historique</a>
+                                <a href="/client/detailClient/<%= clients.company_id %>" class="client">Client</a>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+                        <% } else { %>
+                        <p style="margin: 10px 0 20px;">Aucun serveur pour cette société</p>
+                        <% } %>
+                        <div class="serverLink-container">
+                                    <a href="/server/addClient/<%= clients.company_id %>/client" class="serverLink">
+                                        Rattacher ce client
+                                        à un/des serveurs</a>
+                        </div>
+        </div>
+</body>
+
+</html>
