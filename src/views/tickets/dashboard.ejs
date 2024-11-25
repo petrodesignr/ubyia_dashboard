@@ -5,15 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
             <link rel="stylesheet" href="/style/style.css"/> 
             <link rel="stylesheet" href="/style/dashboard.css"/>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-            <script>
-                
-            </script>
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+            <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
             
     </head>
     <body>
@@ -41,218 +38,246 @@
             </div>
             
             <div class="main_pop_filter">
-
-                <div id="reportrange">
-                    <i class="fa fa-calendar"></i>&nbsp;
-                    <span></span> <i class="fa fa-caret-down"></i>
+                <div class="date-filter">
+                    <input type="checkbox" id="activateDateFilter">
+                    <label for="activateDateFilter">Enable Date Filter</label>
                 </div>
-
+                <div id="reportrange">
+                    <i class="fa fa-calendar"></i>
+                    <span id="dateRangeLabel">Select Date Range</span>
+                    <i class="fa fa-caret-down"></i>
+                </div>
+                
+            
                 <div class="pop_filter">
                     <h1>Priorité</h1>
                     <div class="filter_box">
-                    <div>
-                        <input type="checkbox" id="haute" onclick="check()">
-                        <label for="haute">Haute</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="moyenne" onclick="check()">
-                        <label for="moyenne">Moyenne</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="basse" onclick="check()">
-                        <label for="basse">Basse</label>
-                    </div>
+                        <div>
+                            <input type="checkbox" id="haute" value="haute" name="filterPriority">
+                            <label for="haute">Haute</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="moyenne" value="moyenne" name="filterPriority">
+                            <label for="moyenne">Moyenne</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="basse" value="basse" name="filterPriority">
+                            <label for="basse">Basse</label>
+                        </div>
                     </div>
                 </div>
-
+            
                 <div class="pop_filter">
                     <h1>Statuts</h1>
                     <div class="filter_box">
                         <div>
-                            <input type="checkbox" id="nouveau" onclick="check()">
+                            <input type="checkbox" id="nouveau" value="nouveau" name="filterStatus">
                             <label for="nouveau">Nouveau</label>
                         </div>
                         <div>
-                            <input type="checkbox" id="en_attente" onclick="check()">
+                            <input type="checkbox" id="en_attente" value="en attente" name="filterStatus">
                             <label for="en_attente">En Attente</label>
                         </div>
                         <div>
-                            <input type="checkbox" id="en_cours" onclick="check()">
+                            <input type="checkbox" id="en_cours" value="en cours" name="filterStatus">
                             <label for="en_cours">En cours</label>
                         </div>
                         <div>
-                            <input type="checkbox" id="resolus" onclick="check()">
+                            <input type="checkbox" id="resolus" value="resolus" name="filterStatus">
                             <label for="resolus">Resolus</label>
                         </div>
                     </div>
-                </div>                
+                </div>
             </div>
         </section>
 <!-- table body avec les contenus de la table de ticket -->
         <section class="table_body">
-            <table>
+            <table id="ticketTable">
                 <thead>
                     <tr>
-                        <th> <p>Contact<span class="icon-arrow">&UpArrow;</span></p> </th>
-                        <th> <p>Client <span class="icon-arrow">&UpArrow;</span></p></th>
-                        <th> <p>Serveurs <span class="icon-arrow">&UpArrow;</span></p></th>
-                        <th> <p>Crée le <span class="icon-arrow">&UpArrow;</span></p></th>
-                        <th> <p>Modification Par <span class="icon-arrow">&UpArrow;</span></p></th>
-                        <th> <p>Priorité <span class="icon-arrow">&UpArrow;</span></p></th>
-                        <th> <p>Status <span class="icon-arrow">&UpArrow;</span></p></th>
-                        
+                        <th ><p>Contact</p></th>
+                        <th ><p>Client <span class="icon-arrow" data-column="1" data-order="asc">&UpArrow;</span></p></th>
+                        <th ><p>Serveurs <span class="icon-arrow" data-column="2" data-order="asc">&UpArrow;</span></p></th>
+                        <th ><p>Crée le <span class="icon-arrow" data-column="3" data-order="asc">&UpArrow;</span></p></th>
+                        <th ><p>Modification Par <span class="icon-arrow" data-column="4" data-order="asc">&UpArrow;</span></p></th>
+                        <th ><p>Priorité <span class="icon-arrow" data-column="5" data-order="asc">&UpArrow;</span></p></th>
+                        <th ><p>Status <span class="icon-arrow" data-column="6" data-order="asc">&UpArrow;</span></p></th>
+                        <th ><p>Message</p></th>
                     </tr>
                 </thead>
+                
                 <tbody>
                     <tr>
-                        <td>Jules SAE<br>j.sae@gmail.com</td>
-                        <td>FERRERO</td>
-                        <td>#6215-56</td>
-                        <td>Ticket #8958<br>Le: 00/00/0000</td>
-                        <td>Jules SAE<br>Le: 00/00/00</td>
+                        <td>Emma Stone<br>emma.stone@gmail.com</td>
+                        <td>TESLA</td>
+                        <td>#1456-23</td>
+                        <td>Ticket #1012<br>Le: 11/10/2024</td>
+                        <td>John Doe<br>Le: 15/10/2024</td>
                         <td>
                             <p class="status cancelled">Haute</p>
                         </td>
                         <td>
                             <p class="status shipped">Nouveau</p>
                         </td>
+                        <td>
+                            <i class="fa-regular fa-message fa-2x"></i>
+                        </td>
                     </tr>
-                </tbody>
-                <tbody>
+                
                     <tr>
-                        <td>Jules SAE<br>j.sae@gmail.com</td>
-                        <td>FERRERO</td>
-                        <td>#6215-56</td>
-                        <td>Ticket #8958<br>Le: 00/00/0000</td>
-                        <td>Jules SAE<br>Le: 00/00/00</td>
+                        <td>Lucas Meyer<br>lucas.meyer@outlook.com</td>
+                        <td>AMAZON</td>
+                        <td>#6589-48</td>
+                        <td>Ticket #2039<br>Le: 12/10/2024</td>
+                        <td>Sarah Connor<br>Le: 15/10/2024</td>
                         <td>
                             <p class="status pending">Moyenne</p>
                         </td>
                         <td>
                             <p class="status delivered">Resolus</p>
                         </td>
+                        <td>
+                            <i class="fa-regular fa-message fa-2x"></i>
+                        </td>
                     </tr>
-                </tbody>
-                <tbody>
+                
                     <tr>
-                        <td>Jules SAE<br>j.sae@gmail.com</td>
-                        <td>FERRERO</td>
-                        <td>#6215-56</td>
-                        <td>Ticket #8958<br>Le: 00/00/0000</td>
-                        <td>Jules SAE<br>Le: 00/00/00</td>
+                        <td>Olivia Smith<br>olivia.smith@yahoo.com</td>
+                        <td>APPLE</td>
+                        <td>#9347-12</td>
+                        <td>Ticket #3021<br>Le: 22/09/2024</td>
+                        <td>Michael Brown<br>Le: 25/09/2024</td>
                         <td>
                             <p class="status delivered">Basse</p>
                         </td>
                         <td>
                             <p class="status pending">En cours</p>
                         </td>
+                        <td>
+                            <i class="fa-regular fa-message fa-2x"></i>
+                        </td>
                     </tr>
-                </tbody>
-                <tbody>
+                
                     <tr>
-                        <td>Jules SAE<br>j.sae@gmail.com</td>
-                        <td>FERRERO</td>
-                        <td>#6215-56</td>
-                        <td>Ticket #8958<br>Le: 00/00/0000</td>
-                        <td>Jules SAE<br>Le: 00/00/00</td>
+                        <td>James Taylor<br>james.taylor@live.com</td>
+                        <td>GOOGLE</td>
+                        <td>#1274-89</td>
+                        <td>Ticket #4523<br>Le: 10/08/2024</td>
+                        <td>Alice Johnson<br>Le: 12/08/2024</td>
                         <td>
                             <p class="status delivered">Basse</p>
                         </td>
                         <td>
                             <p class="status shipped">Nouveau</p>
                         </td>
+                        <td>
+                            <i class="fa-regular fa-message fa-2x"></i>
+                        </td>
                     </tr>
-                </tbody>
-                <tbody>
+                
                     <tr>
-                        <td>Jules SAE<br>j.sae@gmail.com</td>
-                        <td>FERRERO</td>
-                        <td>#6215-56</td>
-                        <td>Ticket #8958<br>Le: 00/00/0000</td>
-                        <td>Jules SAE<br>Le: 00/00/00</td>
+                        <td>Charlotte Davis<br>charlotte.davis@protonmail.com</td>
+                        <td>NIKE</td>
+                        <td>#3458-56</td>
+                        <td>Ticket #5702<br>Le: 05/07/2024</td>
+                        <td>Daniel Garcia<br>Le: 07/07/2024</td>
                         <td>
                             <p class="status cancelled">Haute</p>
                         </td>
                         <td>
                             <p class="status delivered">Resolus</p>
                         </td>
+                        <td>
+                            <i class="fa-regular fa-message fa-2x"></i>
+                        </td>
                     </tr>
-                </tbody>
-                <tbody>
+                
                     <tr>
-                        <td>Jules SAE<br>j.sae@gmail.com</td>
-                        <td>FERRERO</td>
-                        <td>#6215-56</td>
-                        <td>Ticket #8958<br>Le: 00/00/0000</td>
-                        <td>Jules SAE<br>Le: 00/00/00</td>
+                        <td>William Clark<br>william.clark@gmail.com</td>
+                        <td>BMW</td>
+                        <td>#7842-67</td>
+                        <td>Ticket #6824<br>Le: 14/06/2024</td>
+                        <td>Emma Wilson<br>Le: 17/06/2024</td>
                         <td>
                             <p class="status cancelled">Haute</p>
                         </td>
                         <td>
                             <p class="status pending">En cours</p>
                         </td>
+                        <td>
+                            <i class="fa-regular fa-message fa-2x"></i>
+                        </td>
                     </tr>
-                </tbody>
-                <tbody>
+                
                     <tr>
-                        <td>Jules SAE<br>j.sae@gmail.com</td>
-                        <td>FERRERO</td>
-                        <td>#6215-56</td>
-                        <td>Ticket #8958<br>Le: 00/00/0000</td>
-                        <td>Jules SAE<br>Le: 00/00/00</td>
+                        <td>Sophia Martinez<br>sophia.martinez@icloud.com</td>
+                        <td>SONY</td>
+                        <td>#6529-47</td>
+                        <td>Ticket #7845<br>Le: 20/05/2024</td>
+                        <td>Oliver Harris<br>Le: 23/05/2024</td>
                         <td>
                             <p class="status pending">Moyenne</p>
                         </td>
                         <td>
-                            <p class="status delivered">Resolus</p>
+                            <p class="status cancelled">En attente</p>
+                        </td>
+                        <td>
+                            <i class="fa-regular fa-message fa-2x"></i>
                         </td>
                     </tr>
-                </tbody>
-                <tbody>
+                
                     <tr>
-                        <td>Jules SAE<br>j.sae@gmail.com</td>
-                        <td>FERRERO</td>
-                        <td>#6215-56</td>
-                        <td>Ticket #8958<br>Le: 00/00/0000</td>
-                        <td>Jules SAE<br>Le: 00/00/00</td>
+                        <td>Elijah Thomas<br>elijah.thomas@hotmail.com</td>
+                        <td>ADIDAS</td>
+                        <td>#8741-99</td>
+                        <td>Ticket #9052<br>Le: 01/04/2024</td>
+                        <td>Mia Walker<br>Le: 04/04/2024</td>
                         <td>
                             <p class="status delivered">Basse</p>
                         </td>
                         <td>
                             <p class="status delivered">Resolus</p>
                         </td>
+                        <td>
+                            <i class="fa-regular fa-message fa-2x"></i>
+                        </td>
                     </tr>
-                </tbody>
-                <tbody>
+                
                     <tr>
-                        <td>Jules SAE<br>j.sae@gmail.com</td>
-                        <td>FERRERO</td>
-                        <td>#6215-56</td>
-                        <td>Ticket #8958<br>Le: 00/00/0000</td>
-                        <td>Jules SAE<br>Le: 00/00/00</td>
+                        <td>Isabella Anderson<br>isabella.anderson@gmail.com</td>
+                        <td>MICROSOFT</td>
+                        <td>#5910-33</td>
+                        <td>Ticket #10123<br>Le: 15/03/2024</td>
+                        <td>Ethan Scott<br>Le: 17/03/2024</td>
+                        <td>
+                            <p class="status cancelled">Haute</p>
+                        </td>
+                        <td>
+                            <p class="status cancelled">En attente</p>
+                        </td>
+                        <td>
+                            <i class="fa-regular fa-message fa-2x"></i>
+                        </td>
+                    </tr>
+                
+                    <tr>
+                        <td>Benjamin White<br>benjamin.white@yahoo.com</td>
+                        <td>SAMSUNG</td>
+                        <td>#4428-51</td>
+                        <td>Ticket #11254<br>Le: 25/02/2024</td>
+                        <td>Ava King<br>Le: 28/02/2024</td>
                         <td>
                             <p class="status cancelled">Haute</p>
                         </td>
                         <td>
                             <p class="status delivered">Resolus</p>
                         </td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>Jules SAE<br>j.sae@gmail.com</td>
-                        <td>FERRERO</td>
-                        <td>#6215-56</td>
-                        <td>Ticket #8958<br>Le: 00/00/0000</td>
-                        <td>Jules SAE<br>Le: 00/00/00</td>
                         <td>
-                            <p class="status cancelled">Haute</p>
-                        </td>
-                        <td>
-                            <p class="status delivered">Resolus</p>
+                            <i class="fa-regular fa-message fa-2x"></i>
                         </td>
                     </tr>
                 </tbody>
+                               
             </table>
         </section>
     </main>
