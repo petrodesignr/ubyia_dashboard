@@ -2,12 +2,46 @@ const hamSearch = document.querySelector('.ham_search');
 
 const popFilter = document.querySelector('.main_pop_filter');
 
-hamSearch.addEventListener('click', () => {
-    hamSearch.classList.toggle('active');
-    popFilter.classList.toggle('active')
-})
+// hamSearch.addEventListener('click', () => {
+//     hamSearch.classList.toggle('active');
+//     popFilter.classList.toggle('active')
+// })
 
-// filtre show
+
+// Filtrer la recherche
+
+function myFunction() {
+    var input, filter, table, tr, rowsArray, tbody;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("ticketTable");
+    tbody = table.getElementsByTagName("tbody")[0];
+    tr = Array.from(tbody.getElementsByTagName("tr")); // Only consider rows within <tbody>
+
+    // Si la saisie de recherche est vide, réinitialiser toutes les lignes
+    if (filter === "") {
+        tr.forEach(row => row.style.display = ""); // Afficher toutes les lignes
+        return;
+    }
+
+    // Filtrer les lignes en fonction de la saisie de recherche
+    tr.forEach(row => {
+        var td = row.getElementsByTagName("td")[1]; // Cibler la colonne "Client"
+        if (td) {
+            var txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().startsWith(filter)) {
+                row.style.display = ""; // Afficher la ligne si elle correspond au filtre
+            } else {
+                row.style.display = "none"; // Masquer la ligne si elle ne correspond pas
+            }
+        }
+    });
+}
+
+
+  
+
+// Affichage du filtre
 
 $(document).ready(function () {
     $("#filterbtn").click(function () {
@@ -24,86 +58,13 @@ $(document).ready(function () {
 });
 
 
-// filter Date
-
-// $(function() {
-//     // Default start and end dates
-//     var start = moment();
-//     var end = moment();
-
-//     // Callback function for updating the displayed date range
-//     function cb(start, end, label) {
-//         // Display selected date range in the span
-//         if (label === 'Today' || label === 'Yesterday' || label === '') {
-//             $('#reportrange span').html(start.format('MMMM D, YYYY'));
-//         } else {
-//             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-//         }
-
-//         // Call the table filtering function with the selected date range
-//         filterByDateRange(start.toDate(), end.toDate());
-//     }
-
-//     // Initialize the date range picker
-//     $('#reportrange').daterangepicker({
-//         startDate: start,
-//         endDate: end,
-//         ranges: {
-//            'Today': [moment(), moment()],
-//            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-//            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-//            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-//            'This Month': [moment().startOf('month'), moment().endOf('month')],
-//            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-//         }
-//     }, cb);
-
-//     // Initial call with default settings
-//     cb(start, end, '');
-// });
-
-// // Function to filter table rows based on date range
-// function filterByDateRange(startDate, endDate) {
-//     // Convert input dates to Date objects if they aren't already
-//     startDate = new Date(startDate);
-//     endDate = new Date(endDate);
-
-//     // Get all rows from the table body
-//     const rows = document.querySelectorAll("#ticketTable tbody tr");
-
-//     rows.forEach(row => {
-//         // Find the cell containing the date
-//         const dateCell = row.querySelector("td:nth-child(4)"); // Assuming date is in the 4th column
-//         if (dateCell) {
-//             // Extract and parse the date
-//             const rowDate = extractDate(dateCell.textContent);
-
-//             // Check if the row's date falls within the range
-//             if (rowDate >= startDate && rowDate <= endDate) {
-//                 row.style.display = ""; // Show row
-//             } else {
-//                 row.style.display = "none"; // Hide row
-//             }
-//         }
-//     });
-// }
-
-// // Function to extract date from cell text
-// function extractDate(cellText) {
-//     const dateMatch = cellText.match(/Le:\s?(\d{2}\/\d{2}\/\d{4})/);
-//     if (dateMatch) {
-//         const [day, month, year] = dateMatch[1].split('/').map(Number);
-//         return new Date(year, month - 1, day); // Convert to Date object
-//     }
-//     return new Date(0); // Fallback to epoch start if no valid date
-// }
-
+// Filtrer par Date
 
 $(function() {
     var start = moment();
     var end = moment();
 
-    // Callback to update the displayed date range
+    // Fonction de rappel pour mettre à jour la plage de dates affichée
     function cb(start, end, label) {
         if (label === 'Today' || label === 'Yesterday' || label === '') {
             $('#reportrange span').html(start.format('MMMM D, YYYY'));
@@ -111,61 +72,62 @@ $(function() {
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         }
 
-        // Apply filter only if checkbox is checked
+        // Appliquer le filtre uniquement si la case à cocher est activée
         if ($('#activateDateFilter').is(':checked')) {
             filterByDateRange(start.toDate(), end.toDate());
         }
     }
 
-    // Initialize the date range picker
+    // Initialiser le sélecteur de plage de dates
     const dateRangePicker = $('#reportrange').daterangepicker({
         startDate: start,
         endDate: end,
         ranges: {
-           'Today': [moment(), moment()],
-           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-           'This Month': [moment().startOf('month'), moment().endOf('month')],
-           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         }
     }, cb);
 
-    // Disable the date picker initially
-    dateRangePicker.data('daterangepicker').container.addClass('disabled');
+    // Désactiver le sélecteur de dates initialement
+    $('#reportrange').addClass('disabled');
     $('#reportrange').css('pointer-events', 'none');
 
-    // Show all rows initially
+    // Afficher toutes les lignes initialement
     showAllRows();
 
-    // Handle checkbox toggle
+    // Gérer le basculement de la case à cocher
     $('#activateDateFilter').change(function() {
         if ($(this).is(':checked')) {
-            // Enable the date picker
-            dateRangePicker.data('daterangepicker').container.removeClass('disabled');
+            // Activer le sélecteur de dates
+            $('#reportrange').removeClass('disabled');
             $('#reportrange').css('pointer-events', 'auto');
 
-            // Apply the filter with the current range
+            // Appliquer le filtre avec la plage actuelle
             filterByDateRange(start.toDate(), end.toDate());
         } else {
-            // Disable the date picker
-            dateRangePicker.data('daterangepicker').container.addClass('disabled');
+            // Désactiver le sélecteur de dates
+            $('#reportrange').addClass('disabled');
             $('#reportrange').css('pointer-events', 'none');
 
-            // Show all rows when the filter is disabled
+            // Afficher toutes les lignes lorsque le filtre est désactivé
             showAllRows();
+            
         }
     });
 
-    // Function to show all rows in the table
+    // Fonction pour afficher toutes les lignes du tableau
     function showAllRows() {
         const rows = document.querySelectorAll("#ticketTable tbody tr");
         rows.forEach(row => {
-            row.style.display = ""; // Show all rows
+            row.style.display = ""; // Afficher toutes les lignes
         });
     }
 
-    // Function to filter table rows based on date range
+    // Fonction pour filtrer les lignes du tableau en fonction de la plage de dates
     function filterByDateRange(startDate, endDate) {
         startDate = new Date(startDate);
         endDate = new Date(endDate);
@@ -173,27 +135,65 @@ $(function() {
         const rows = document.querySelectorAll("#ticketTable tbody tr");
 
         rows.forEach(row => {
-            const dateCell = row.querySelector("td:nth-child(4)"); // Assuming date is in the 4th column
+            const dateCell = row.querySelector("td:nth-child(4)"); // Supposons que la date est dans la 4ème colonne
             if (dateCell) {
                 const rowDate = extractDate(dateCell.textContent);
                 if (rowDate >= startDate && rowDate <= endDate) {
-                    row.style.display = ""; // Show row
+                    row.style.display = ""; // Afficher la ligne
                 } else {
-                    row.style.display = "none"; // Hide row
+                    row.style.display = "none"; // Masquer la ligne
                 }
             }
         });
     }
 
-    // Function to extract date from cell text
+    // Fonction pour extraire la date du texte de la cellule
     function extractDate(cellText) {
         const dateMatch = cellText.match(/Le:\s?(\d{2}\/\d{2}\/\d{4})/);
         if (dateMatch) {
             const [day, month, year] = dateMatch[1].split('/').map(Number);
-            return new Date(year, month - 1, day); // Convert to Date object
+            return new Date(year, month - 1, day); // Convertir en objet Date
         }
-        return new Date(0); // Fallback to epoch start if no valid date
+        return new Date(0); // Valeur par défaut si aucune date valide n'est trouvée
     }
+});
+
+
+
+
+// filtre
+
+$(document).ready(function () {
+    $("input[name='filterPriority'], input[name='filterStatus']").change(function () {
+        // Collect selected priorities and statuses
+        const selectedPriorities = $("input[name='filterPriority']:checked").map(function () {
+            return $(this).val();
+        }).get();
+
+        const selectedStatuses = $("input[name='filterStatus']:checked").map(function () {
+            return $(this).val();
+        }).get();
+
+        // Loop through each table row
+        $("#ticketTable tbody tr").each(function () {
+            const $row = $(this);
+
+            // Extract the priority and status from the row
+            const rowPriority = $row.find("td:nth-child(6) p").text().trim().toLowerCase();
+            const rowStatus = $row.find("td:nth-child(7) p").text().trim().toLowerCase();
+
+            // Check if the row matches the selected filters
+            const matchesPriority = !selectedPriorities.length || selectedPriorities.includes(rowPriority);
+            const matchesStatus = !selectedStatuses.length || selectedStatuses.includes(rowStatus);
+
+            // Show or hide the row based on the filter
+            if (matchesPriority && matchesStatus) {
+                $row.show();
+            } else {
+                $row.hide();
+            }
+        });
+    });
 });
 
 
@@ -211,6 +211,15 @@ document.querySelectorAll('.icon-arrow').forEach(span => {
         rows.sort((rowA, rowB) => {
             const cellA = rowA.children[columnIndex].textContent.trim();
             const cellB = rowB.children[columnIndex].textContent.trim();
+
+            // Priority-specific sorting
+            if (columnIndex === 5) { // Assuming Priority is in column index 5
+                const priorityOrder = ["Haute", "Moyenne", "Basse"];
+                const valueA = priorityOrder.indexOf(cellA);
+                const valueB = priorityOrder.indexOf(cellB);
+
+                return order === 'asc' ? valueA - valueB : valueB - valueA;
+            }
 
             // Date-specific sorting for "Crée le" (columnIndex 3) or "Modification Par" (columnIndex 4)
             if (columnIndex === 3 || columnIndex === 4) {
@@ -248,39 +257,3 @@ function extractDate(cellText) {
     }
     return new Date(0); // Fallback to epoch start if no valid date
 }
-
-
-// filtre
-
-$(document).ready(function () {
-    $("input[name='filterPriority'], input[name='filterStatus']").change(function () {
-        // Collect selected priorities and statuses
-        const selectedPriorities = $("input[name='filterPriority']:checked").map(function () {
-            return $(this).val();
-        }).get();
-
-        const selectedStatuses = $("input[name='filterStatus']:checked").map(function () {
-            return $(this).val();
-        }).get();
-
-        // Loop through each table row
-        $("#ticketTable tbody tr").each(function () {
-            const $row = $(this);
-
-            // Extract the priority and status from the row
-            const rowPriority = $row.find("td:nth-child(6) p").text().trim().toLowerCase();
-            const rowStatus = $row.find("td:nth-child(7) p").text().trim().toLowerCase();
-
-            // Check if the row matches the selected filters
-            const matchesPriority = !selectedPriorities.length || selectedPriorities.includes(rowPriority);
-            const matchesStatus = !selectedStatuses.length || selectedStatuses.includes(rowStatus);
-
-            // Show or hide the row based on the filter
-            if (matchesPriority && matchesStatus) {
-                $row.show();
-            } else {
-                $row.hide();
-            }
-        });
-    });
-});
