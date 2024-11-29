@@ -233,21 +233,36 @@ tbody tr.hide td p {
     text-align: center;
 }
 
-.status.delivered {
+.statusfaible,
+.statusresolus {
+    padding: .4rem 0;
+        border-radius: 2rem;
+        text-align: center;
     background-color: #86e49d;
     color: #006b21;
 }
 
-.status.cancelled {
+.statusurgent,
+.statusen_attente {
+    padding: .4rem 0;
+        border-radius: 2rem;
+        text-align: center;
     background-color: #d893a3;
     color: #b30021;
 }
 
-.status.pending {
+.statusen_cours {
+    padding: .4rem 0;
+        border-radius: 2rem;
+        text-align: center;
     background-color: #ebc474;
 }
 
-.status.shipped {
+.statusnormal,
+.statusnouveau {
+    padding: .4rem 0;
+        border-radius: 2rem;
+        text-align: center;
     background-color: #6fcaea;
 }
 

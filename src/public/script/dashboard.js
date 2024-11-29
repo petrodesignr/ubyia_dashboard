@@ -67,9 +67,9 @@ $(function() {
     // Fonction de rappel pour mettre à jour la plage de dates affichée
     function cb(start, end, label) {
         if (label === 'Today' || label === 'Yesterday' || label === '') {
-            $('#reportrange span').html(start.format('MMMM D, YYYY'));
+            $('#reportrange span').html(start.format('DD/MM/YYYY'));
         } else {
-            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            $('#reportrange span').html(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
         }
 
         // Appliquer le filtre uniquement si la case à cocher est activée
@@ -180,7 +180,7 @@ $(document).ready(function () {
 
             // Extract the priority and status from the row
             const rowPriority = $row.find("td:nth-child(6) p").text().trim().toLowerCase();
-            const rowStatus = $row.find("td:nth-child(7) p").text().trim().toLowerCase();
+            const rowStatus = $row.find("td:nth-child(7) p").text().trim().toLowerCase().replace(' ', '_');
 
             // Check if the row matches the selected filters
             const matchesPriority = !selectedPriorities.length || selectedPriorities.includes(rowPriority);
@@ -214,7 +214,7 @@ document.querySelectorAll('.icon-arrow').forEach(span => {
 
             // Priority-specific sorting
             if (columnIndex === 5) { // Assuming Priority is in column index 5
-                const priorityOrder = ["Haute", "Moyenne", "Basse"];
+                const priorityOrder = ["Urgent", "Normal", "Faible"];
                 const valueA = priorityOrder.indexOf(cellA);
                 const valueB = priorityOrder.indexOf(cellB);
 

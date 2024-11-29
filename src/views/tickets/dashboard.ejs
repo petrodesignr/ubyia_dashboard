@@ -44,41 +44,26 @@
             
                 <div class="pop_filter">
                     <h1>Priorité</h1>
-                    <div class="filter_box">
-                        <div>
-                            <input type="checkbox" id="haute" value="haute" name="filterPriority">
-                            <label for="haute">Haute</label>
+                    
+                        <div class="filter_box">
+                            <% priority.forEach(priority => { %>
+                            <div>
+                                <input type="checkbox" id="<%= priority.priority_name %>" value="<%= priority.priority_name.toLowerCase().replace(' ', '_') %>" name="filterPriority">
+                                <label for="<%= priority.priority_name %>"><%= priority.priority_name %></label>
+                            </div>
+                            <% }); %>
                         </div>
-                        <div>
-                            <input type="checkbox" id="moyenne" value="moyenne" name="filterPriority">
-                            <label for="moyenne">Moyenne</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="basse" value="basse" name="filterPriority">
-                            <label for="basse">Basse</label>
-                        </div>
-                    </div>
-                </div>
+                </div> 
             
                 <div class="pop_filter">
                     <h1>Statuts</h1>
                     <div class="filter_box">
-                        <div>
-                            <input type="checkbox" id="nouveau" value="nouveau" name="filterStatus">
-                            <label for="nouveau">Nouveau</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="en_attente" value="en attente" name="filterStatus">
-                            <label for="en_attente">En Attente</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="en_cours" value="en cours" name="filterStatus">
-                            <label for="en_cours">En cours</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="resolus" value="resolus" name="filterStatus">
-                            <label for="resolus">Resolus</label>
-                        </div>
+                            <% status.forEach(status => { %>
+                            <div>
+                                <input type="checkbox" id="<%= status.status_name %>" value="<%= status.status_name.toLowerCase().replace(' ', '_') %>" name="filterStatus">
+                                <label for="<%= status.status_name %>"><%= status.status_name %></label>
+                            </div>
+                            <% }); %>
                     </div>
                 </div>
             </div>
@@ -100,177 +85,40 @@
                 </thead>
                 
                 <tbody>
-                    <tr>
-                        <td>Emma Stone<br>emma.stone@gmail.com</td>
-                        <td>TESLA</td>
-                        <td>#1456-23</td>
-                        <td>Ticket #1012<br>Le: 11/10/2024</td>
-                        <td>John Doe<br>Le: 15/10/2024</td>
-                        <td>
-                            <p class="status cancelled">Haute</p>
-                        </td>
-                        <td>
-                            <p class="status shipped">Nouveau</p>
-                        </td>
-                        <td>
-                            <i class="fa-regular fa-message fa-2x"></i>
-                        </td>
-                    </tr>
-                
-                    <tr>
-                        <td>Lucas Meyer<br>lucas.meyer@outlook.com</td>
-                        <td>AMAZON</td>
-                        <td>#6589-48</td>
-                        <td>Ticket #2039<br>Le: 12/10/2024</td>
-                        <td>Sarah Connor<br>Le: 15/10/2024</td>
-                        <td>
-                            <p class="status pending">Moyenne</p>
-                        </td>
-                        <td>
-                            <p class="status delivered">Resolus</p>
-                        </td>
-                        <td>
-                            <i class="fa-regular fa-message fa-2x"></i>
-                        </td>
-                    </tr>
-                
-                    <tr>
-                        <td>Olivia Smith<br>olivia.smith@yahoo.com</td>
-                        <td>APPLE</td>
-                        <td>#9347-12</td>
-                        <td>Ticket #3021<br>Le: 22/09/2024</td>
-                        <td>Michael Brown<br>Le: 25/09/2024</td>
-                        <td>
-                            <p class="status delivered">Basse</p>
-                        </td>
-                        <td>
-                            <p class="status pending">En cours</p>
-                        </td>
-                        <td>
-                            <i class="fa-regular fa-message fa-2x"></i>
-                        </td>
-                    </tr>
-                
-                    <tr>
-                        <td>James Taylor<br>james.taylor@live.com</td>
-                        <td>GOOGLE</td>
-                        <td>#1274-89</td>
-                        <td>Ticket #4523<br>Le: 10/08/2024</td>
-                        <td>Alice Johnson<br>Le: 12/08/2024</td>
-                        <td>
-                            <p class="status delivered">Basse</p>
-                        </td>
-                        <td>
-                            <p class="status shipped">Nouveau</p>
-                        </td>
-                        <td>
-                            <i class="fa-regular fa-message fa-2x"></i>
-                        </td>
-                    </tr>
-                
-                    <tr>
-                        <td>Charlotte Davis<br>charlotte.davis@protonmail.com</td>
-                        <td>NIKE</td>
-                        <td>#3458-56</td>
-                        <td>Ticket #5702<br>Le: 05/07/2024</td>
-                        <td>Daniel Garcia<br>Le: 07/07/2024</td>
-                        <td>
-                            <p class="status cancelled">Haute</p>
-                        </td>
-                        <td>
-                            <p class="status delivered">Resolus</p>
-                        </td>
-                        <td>
-                            <i class="fa-regular fa-message fa-2x"></i>
-                        </td>
-                    </tr>
-                
-                    <tr>
-                        <td>William Clark<br>william.clark@gmail.com</td>
-                        <td>BMW</td>
-                        <td>#7842-67</td>
-                        <td>Ticket #6824<br>Le: 14/06/2024</td>
-                        <td>Emma Wilson<br>Le: 17/06/2024</td>
-                        <td>
-                            <p class="status cancelled">Haute</p>
-                        </td>
-                        <td>
-                            <p class="status pending">En cours</p>
-                        </td>
-                        <td>
-                            <i class="fa-regular fa-message fa-2x"></i>
-                        </td>
-                    </tr>
-                
-                    <tr>
-                        <td>Sophia Martinez<br>sophia.martinez@icloud.com</td>
-                        <td>SONY</td>
-                        <td>#6529-47</td>
-                        <td>Ticket #7845<br>Le: 20/05/2024</td>
-                        <td>Oliver Harris<br>Le: 23/05/2024</td>
-                        <td>
-                            <p class="status pending">Moyenne</p>
-                        </td>
-                        <td>
-                            <p class="status cancelled">En attente</p>
-                        </td>
-                        <td>
-                            <i class="fa-regular fa-message fa-2x"></i>
-                        </td>
-                    </tr>
-                
-                    <tr>
-                        <td>Elijah Thomas<br>elijah.thomas@hotmail.com</td>
-                        <td>ADIDAS</td>
-                        <td>#8741-99</td>
-                        <td>Ticket #9052<br>Le: 01/04/2024</td>
-                        <td>Mia Walker<br>Le: 04/04/2024</td>
-                        <td>
-                            <p class="status delivered">Basse</p>
-                        </td>
-                        <td>
-                            <p class="status delivered">Resolus</p>
-                        </td>
-                        <td>
-                            <i class="fa-regular fa-message fa-2x"></i>
-                        </td>
-                    </tr>
-                
-                    <tr>
-                        <td>Isabella Anderson<br>isabella.anderson@gmail.com</td>
-                        <td>MICROSOFT</td>
-                        <td>#5910-33</td>
-                        <td>Ticket #10123<br>Le: 15/03/2024</td>
-                        <td>Ethan Scott<br>Le: 17/03/2024</td>
-                        <td>
-                            <p class="status cancelled">Haute</p>
-                        </td>
-                        <td>
-                            <p class="status cancelled">En attente</p>
-                        </td>
-                        <td>
-                            <i class="fa-regular fa-message fa-2x"></i>
-                        </td>
-                    </tr>
-                
-                    <tr>
-                        <td>Benjamin White<br>benjamin.white@yahoo.com</td>
-                        <td>SAMSUNG</td>
-                        <td>#4428-51</td>
-                        <td>Ticket #11254<br>Le: 25/02/2024</td>
-                        <td>Ava King<br>Le: 28/02/2024</td>
-                        <td>
-                            <p class="status cancelled">Haute</p>
-                        </td>
-                        <td>
-                            <p class="status delivered">Resolus</p>
-                        </td>
-                        <td>
-                            <i class="fa-regular fa-message fa-2x"></i>
-                        </td>
-                    </tr>
+                    <% if (tickets && tickets.length > 0) { %>
+                        <% tickets.forEach(ticket => { %>
+                            <tr>
+                                <td><%= ticket.user_firstname %> <%= ticket.user_lastname %><br><%= ticket.user_email %></td>
+                                <td><%= ticket.company_name %></td>
+                                <td><%= ticket.ubybox_serial_number%></td>
+                                <td>
+                                    Ticket #<%= ticket.ticket_id %><br>
+                                    Le: <%= new Date(ticket.ticket_date_create).toLocaleDateString('fr-FR') %>
+                                </td>
+                                <td>
+                                    <%= ticket.staff_first_name %> <%= ticket.staff_last_name %><br>
+                                    Le: <%= ticket.message_date_create ? new Date(ticket.message_date_create).toLocaleDateString('fr-FR') : 'N/A' %>
+                                </td>
+                                <td>
+                                    <p class="status<%= ticket.priority_name.toLowerCase().replace(' ', '_')  %>">
+                                        <%= ticket.priority_name  %>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p class="status<%= ticket.status_name.toLowerCase().replace(' ', '_') %>"><%= ticket.status_name %></p>
+                                </td>
+                                <td>
+                                    <i class="fa-regular fa-message fa-2x"></i>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="8">No tickets available</td>
+                        </tr>
+                    <% } %>
                 </tbody>
-                               
+
             </table>
         </section>
     </main>
