@@ -295,9 +295,9 @@ function extractDate(cellText) {
     const dateMatch = cellText.match(/Le:\s?(\d{2}\/\d{2}\/\d{4})/);
     if (dateMatch) {
         const [day, month, year] = dateMatch[1].split('/').map(Number);
-        return new Date(year, month - 1, day); // Convert to Date object
+        return new Date(year, month - 1, day); // concertir l'objet de date
     }
-    return new Date(0); // Fallback to epoch start if no valid date
+    return new Date(0); 
 }
 
 //handle updates when the user changes the priority or status via the dropdown
@@ -335,7 +335,7 @@ $(document).ready(function () {
             xhrFields: { withCredentials: true },
             success: function (response) {
                 console.log('Update successful:', response);
-                location.reload();
+                location.reload(); //Function pour rafraichir la page afin de voir les changements
                 alert('Ticket updated successfully!');
             },
             error: function (xhr, status, error) {
