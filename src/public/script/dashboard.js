@@ -173,28 +173,29 @@ $(function() {
 
 $(document).ready(function () {
     $("input[name='filterPriority'], input[name='filterStatus']").change(function () {
-        // Collect selected priorities and statuses
+        // Récupérer les priorités sélectionnées à partir des cases à cocher
         const selectedPriorities = $("input[name='filterPriority']:checked").map(function () {
-            return $(this).val();
+            return $(this).val().toLowerCase(); // Normaliser en minuscule
         }).get();
 
+        // Récupérer les statuts sélectionnés à partir des cases à cocher
         const selectedStatuses = $("input[name='filterStatus']:checked").map(function () {
-            return $(this).val();
+            return $(this).val().toLowerCase().replace(' ', '_'); // Normaliser en minuscule et formater
         }).get();
 
-        // Loop through each table row
+        // Parcourir chaque ligne du tableau
         $("#ticketTable tbody tr").each(function () {
             const $row = $(this);
 
-            // Extract the priority and status from the row
-            const rowPriority = $row.find("td:nth-child(6) p").text().trim().toLowerCase();
-            const rowStatus = $row.find("td:nth-child(7) p").text().trim().toLowerCase().replace(' ', '_');
+            // Extraire la priorité et le statut des menus déroulants
+            const rowPriority = $row.find("td:nth-child(6) select option:selected").text().trim().toLowerCase(); // Texte sélectionné du menu déroulant pour la priorité
+            const rowStatus = $row.find("td:nth-child(7) select option:selected").text().trim().toLowerCase().replace(' ', '_'); // Texte sélectionné du menu déroulant pour le statut
 
-            // Check if the row matches the selected filters
+            // Vérifier si la ligne correspond aux filtres sélectionnés
             const matchesPriority = !selectedPriorities.length || selectedPriorities.includes(rowPriority);
             const matchesStatus = !selectedStatuses.length || selectedStatuses.includes(rowStatus);
 
-            // Show or hide the row based on the filter
+            // Afficher ou masquer la ligne en fonction des filtres
             if (matchesPriority && matchesStatus) {
                 $row.show();
             } else {
@@ -203,6 +204,7 @@ $(document).ready(function () {
         });
     });
 });
+
 
 
 // ascendant and descendant
@@ -285,8 +287,6 @@ document.querySelectorAll('.icon-arrow').forEach(span => {
     });
 });
 
-
-
 /**
  * Extracts a Date object from a cell text in the "Le: DD/MM/YYYY" format.
  * If no valid date is found, returns a fallback date (epoch start).
@@ -335,6 +335,7 @@ $(document).ready(function () {
             xhrFields: { withCredentials: true },
             success: function (response) {
                 console.log('Update successful:', response);
+                location.reload();
                 alert('Ticket updated successfully!');
             },
             error: function (xhr, status, error) {
