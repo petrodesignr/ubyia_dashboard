@@ -52,7 +52,7 @@ const ticketModel = {
     getStatus: () => {
         return new Promise((resolve, reject) => {
             const sqlRequest = `
-                SELECT status_name FROM status
+                SELECT status_id, status_name FROM status
             `;
 
             sql.query(sqlRequest, (err, res) => {
@@ -67,7 +67,7 @@ const ticketModel = {
     getPriority: () => {
         return new Promise((resolve, reject) => {
             const sqlRequest = `
-                SELECT priority_name FROM priority
+                SELECT priority_id, priority_name FROM priority
             `;
 
             sql.query(sqlRequest, (err, res) => {
@@ -79,6 +79,38 @@ const ticketModel = {
         });
     },
 
+    updatePriority: (ticketId, priority) => {
+        return new Promise((resolve, reject) => {
+            const sqlRequest = `
+                UPDATE ticket SET id_priority = ? WHERE ticket_id = ?
+            `;
+
+            sql.query(sqlRequest, [priority, ticketId], (err, res) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(res);
+            });
+        });
+    },
+
+    updateStatus: (ticketId, status) => {
+        return new Promise((resolve, reject) => {
+            const sqlRequest = `
+                UPDATE ticket SET id_status = ? WHERE ticket_id = ?
+            `;
+
+            sql.query(sqlRequest, [status, ticketId], (err, res) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(res);
+            });
+        });
+    },
+
 };
+
+
 
 module.exports = ticketModel;

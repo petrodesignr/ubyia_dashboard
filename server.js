@@ -12,10 +12,10 @@ const CryptoJs = require("crypto-js");
 // ************** C O R S ****************
 // Permet de définir les domaines autorisés à accéder à l'API
 const cors = require("cors");
-//app.use(cors());
+// app.use(cors());
 
 const corsOptions = {
-  origin: true,
+  origin: ['http://localhost:5005', 'http://127.0.0.1:5005'],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Ajout des méthodes autorisées
   allowedHeaders: ["Content-Type", "Authorization", "otherData"], // Ajout des en-têtes autorisés
   optionsSuccessStatus: 200, // Pour les anciens navigateurs qui ne supportent pas le statut 204
@@ -43,12 +43,7 @@ app.use(express.static(__dirname + "/src/public"));
 app.set("views", "./src/views");
 app.set("view engine", "ejs");
 
-app.listen(5005);
 
-// SUPPRIMER `0.0.0.0` POUR LE DEPLOYMENT
-http.listen(3000 || process.env.PORT, () => {
-  console.log(`Ecoute du port ${port}...`);
-});
 
 app.use(
   cookieSession({
@@ -73,7 +68,17 @@ app.use("/staff", staffRoute);
 app.use("/client", clientRoute);
 app.use("/tickets", dashboardRoute);
 
-// 404
+
+
+// 404 (if we use this line before any route, all route will redirect to this one and not work)
 app.use((req, res, next) => {
   res.status(404).render("404Error", { message: "page 404" });
+});
+
+
+app.listen(5005); //After listening any route after this line is ignored
+
+// SUPPRIMER `0.0.0.0` POUR LE DEPLOYMENT
+http.listen(process.env.PORT, () => {
+  console.log(`Ecoute du port ${port}...`);
 });

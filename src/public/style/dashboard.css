@@ -227,11 +227,11 @@ tbody tr.hide td p {
     transition: .2s ease-in-out .5s;
 }
 
-.status {
+/* .status {
     padding: .4rem 0;
     border-radius: 2rem;
     text-align: center;
-}
+} */
 
 .statusfaible,
 .statusresolus {

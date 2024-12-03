@@ -15,6 +15,7 @@
     </head>
     <body>
     <%- include('../header.ejs') -%>
+    <%const dateNow = new Date().toLocaleDateString()%>
     <main class="table">
         <!-- table header avec le filtre date recherche et filtre de recherche -->
         <section class="dashboard">
@@ -37,35 +38,43 @@
                 </div>
                 <div id="reportrange">
                     <i class="fa fa-calendar"></i>
-                    <span id="dateRangeLabel">Select Date Range</span>
+                    <span id="dateRangeLabel"><%= dateNow %></span>
                     <i class="fa fa-caret-down"></i>
                 </div>
                 
             
                 <div class="pop_filter">
-                    <h1>Priorité</h1>
-                    
-                        <div class="filter_box">
-                            <% priority.forEach(priority => { %>
-                            <div>
-                                <input type="checkbox" id="<%= priority.priority_name %>" value="<%= priority.priority_name.toLowerCase().replace(' ', '_') %>" name="filterPriority">
-                                <label for="<%= priority.priority_name %>"><%= priority.priority_name %></label>
-                            </div>
-                            <% }); %>
+                <h1>Priorité</h1>
+                <div class="filter_box">
+                    <% priority.forEach(priority => { %>
+                        <div>
+                            <input 
+                                type="checkbox" 
+                                id="<%= priority.priority_name %>" 
+                                value="<%= priority.priority_name.toLowerCase().replace(' ', '_') %>" 
+                                name="filterPriority">
+                            <label for="<%= priority.priority_name %>"><%= priority.priority_name %></label>
                         </div>
-                </div> 
-            
+                    <% }); %>
+                </div>
+            </div>
+
                 <div class="pop_filter">
                     <h1>Statuts</h1>
                     <div class="filter_box">
-                            <% status.forEach(status => { %>
+                        <% status.forEach(status => { %>
                             <div>
-                                <input type="checkbox" id="<%= status.status_name %>" value="<%= status.status_name.toLowerCase().replace(' ', '_') %>" name="filterStatus">
+                                <input 
+                                    type="checkbox" 
+                                    id="<%= status.status_name %>" 
+                                    value="<%= status.status_name.toLowerCase().replace(' ', '_') %>" 
+                                    name="filterStatus">
                                 <label for="<%= status.status_name %>"><%= status.status_name %></label>
                             </div>
-                            <% }); %>
+                        <% }); %>
                     </div>
                 </div>
+
             </div>
         </section>
 <!-- table body avec les contenus de la table de ticket -->
@@ -84,7 +93,7 @@
                     </tr>
                 </thead>
                 
-                <tbody>
+                <!-- <tbody>
                     <% if (tickets && tickets.length > 0) { %>
                         <% tickets.forEach(ticket => { %>
                             <tr>
@@ -117,7 +126,57 @@
                             <td colspan="8">No tickets available</td>
                         </tr>
                     <% } %>
+                </tbody> -->
+
+
+                <tbody>
+                    <% if (tickets && tickets.length > 0) { %>
+                        <% tickets.forEach(ticket => { %>
+                            <tr>
+                                <td><%= ticket.user_firstname %> <%= ticket.user_lastname %><br><%= ticket.user_email %></td>
+                                <td><%= ticket.company_name %></td>
+                                <td><%= ticket.ubybox_serial_number %></td>
+                                <td>
+                                    Ticket #<%= ticket.ticket_id %><br>
+                                    Le: <%= new Date(ticket.ticket_date_create).toLocaleDateString('fr-FR') %>
+                                </td>
+                                <td>
+                                    <%= ticket.staff_first_name %> <%= ticket.staff_last_name %><br>
+                                    Le: <%= ticket.message_date_create ? new Date(ticket.message_date_create).toLocaleDateString('fr-FR') : 'N/A' %>
+                                </td>
+                                <td>
+                                    <!-- Priority Dropdown -->
+                                    <select class="priority-dropdown status<%= ticket.priority_name.toLowerCase().replace(' ', '_') %>" data-ticket-id="<%= ticket.ticket_id %>">
+                                        <% priority.forEach(option => { %>
+                                            <option value="<%= option.priority_id %>" <%= ticket.priority_name === option.priority_name ? 'selected' : '' %>>
+                                                <%= option.priority_name %>
+                                            </option>
+                                        <% }); %>
+                                    </select>
+                                </td>
+                                <td>
+                                    <!-- Status Dropdown -->
+                                    <select class="status-dropdown status<%= ticket.status_name.toLowerCase().replace(' ', '_') %>" data-ticket-id="<%= ticket.ticket_id %>">
+                                        <% status.forEach(option => { %>
+                                            <option value="<%= option.status_id %>" <%= ticket.status_name === option.status_name ? 'selected' : '' %>>
+                                                <%= option.status_name %>
+                                            </option>
+                                        <% }); %>
+                                    </select>
+                                </td>
+                                <td>
+                                    <i class="fa-regular fa-message fa-2x"></i>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="8">No tickets available</td>
+                        </tr>
+                    <% } %>
                 </tbody>
+
+
 
             </table>
         </section>

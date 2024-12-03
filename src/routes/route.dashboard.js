@@ -5,4 +5,9 @@ const router = express.Router();
 
 router.get('/dashboard', sessionAuth, dashboardController.getDashboard);
 
+router.post('/dashboard/priority/:id', sessionAuth, dashboardController.updatePriority);
+
+router.post('/dashboard/status/:id', sessionAuth, dashboardController.updateStatus);
+
+
 module.exports = router;

@@ -96,6 +96,9 @@ $(function() {
     $('#reportrange').addClass('disabled');
     $('#reportrange').css('pointer-events', 'none');
 
+    // Définir la valeur initiale de #dateRangeLabel à la date d'aujourd'hui
+    $('#dateRangeLabel').text(moment().format('DD/MM/YYYY'));
+
     // Afficher toutes les lignes initialement
     showAllRows();
 
@@ -107,11 +110,18 @@ $(function() {
             $('#reportrange').css('pointer-events', 'auto');
 
             // Appliquer le filtre avec la plage actuelle
-            filterByDateRange(start.toDate(), end.toDate());
+            // filterByDateRange(start.toDate(), end.toDate());
+
+            const todayStart = moment().startOf('day').toDate();
+            const todayEnd = moment().endOf('day').toDate();
+            filterByDateRange(todayStart, todayEnd);
         } else {
             // Désactiver le sélecteur de dates
             $('#reportrange').addClass('disabled');
             $('#reportrange').css('pointer-events', 'none');
+
+            // Réinitialiser #dateRangeLabel à la date d'aujourd'hui
+            $('#dateRangeLabel').text(moment().format('DD/MM/YYYY'));
 
             // Afficher toutes les lignes lorsque le filtre est désactivé
             showAllRows();
@@ -159,9 +169,7 @@ $(function() {
 });
 
 
-
-
-// filtre
+// checkbox de filtre
 
 $(document).ready(function () {
     $("input[name='filterPriority'], input[name='filterStatus']").change(function () {
@@ -195,7 +203,6 @@ $(document).ready(function () {
         });
     });
 });
-
 
 
 // ascendant and descendant
@@ -245,6 +252,7 @@ document.querySelectorAll('.icon-arrow').forEach(span => {
     });
 });
 
+
 /**
  * Extracts a Date object from a cell text in the "Le: DD/MM/YYYY" format.
  * If no valid date is found, returns a fallback date (epoch start).
@@ -257,3 +265,52 @@ function extractDate(cellText) {
     }
     return new Date(0); // Fallback to epoch start if no valid date
 }
+
+//handle updates when the user changes the priority or status via the dropdown
+
+$(document).ready(function () {
+    // Handle priority dropdown change
+    $(document).on('change', '.priority-dropdown', function () {
+        const ticketId = $(this).data('ticket-id');
+        const newPriority = $(this).val();
+        console.log('Changing priority for ticket ID:', ticketId, 'New Priority:', newPriority);
+        updateTicketField(ticketId, newPriority, 'priority');
+    });
+
+    // Handle status dropdown change
+    $(document).on('change', '.status-dropdown', function () {
+        const ticketId = $(this).data('ticket-id');
+        const newStatus = $(this).val();
+        console.log('Changing status for ticket ID:', ticketId, 'New Status:', newStatus);
+        updateTicketField(ticketId, newStatus, 'status');
+    });
+
+    // Function to update ticket field
+    function updateTicketField(ticketId, value, field) {
+        const url = field === 'priority'
+            ? `http://localhost:5001/tickets/dashboard/priority/${ticketId}`
+            : `http://localhost:5001/tickets/dashboard/status/${ticketId}`;
+
+        console.log('Updating field:', field, 'URL:', url, 'Value:', value);
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ [field]: value }),
+            xhrFields: { withCredentials: true },
+            success: function (response) {
+                console.log('Update successful:', response);
+                alert('Ticket updated successfully!');
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX error:', xhr.responseText, 'Status:', status, 'Error:', error);
+                alert('An error occurred while updating the ticket.');
+            }
+        });
+    }
+});
+
+
+
+
