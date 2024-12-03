@@ -216,17 +216,50 @@ document.querySelectorAll('.icon-arrow').forEach(span => {
         const order = this.getAttribute('data-order'); // Current order (asc/desc)
 
         rows.sort((rowA, rowB) => {
-            const cellA = rowA.children[columnIndex].textContent.trim();
-            const cellB = rowB.children[columnIndex].textContent.trim();
+            let cellA, cellB;
 
-            // Priority-specific sorting
-            if (columnIndex === 5) { // Assuming Priority is in column index 5
+            // Handle Priority dropdown
+            if (columnIndex === 5) { // Priority column
+                const selectA = rowA.children[columnIndex].querySelector('select');
+                const selectB = rowB.children[columnIndex].querySelector('select');
+
+                cellA = selectA.options[selectA.selectedIndex].text.trim(); // Get the displayed text (name)
+                cellB = selectB.options[selectB.selectedIndex].text.trim();
+
                 const priorityOrder = ["Urgent", "Normal", "Faible"];
                 const valueA = priorityOrder.indexOf(cellA);
                 const valueB = priorityOrder.indexOf(cellB);
 
                 return order === 'asc' ? valueA - valueB : valueB - valueA;
             }
+
+            // Handle Status dropdown
+            if (columnIndex === 6) { // Status column
+                const selectA = rowA.children[columnIndex].querySelector('select');
+                const selectB = rowB.children[columnIndex].querySelector('select');
+
+                // Get the displayed text (not value)
+                cellA = selectA.options[selectA.selectedIndex].text.trim();
+                cellB = selectB.options[selectB.selectedIndex].text.trim();
+
+                // Define the correct order for status
+                const statusOrder = ["En attente", "En cours", "Nouveau", "Résolus"];
+
+                // Find the index of the status in the order array
+                const valueA = statusOrder.indexOf(cellA);
+                const valueB = statusOrder.indexOf(cellB);
+
+                // If the status text is not in the defined order array, move it to the end
+                const adjustedValueA = valueA === -1 ? statusOrder.length : valueA;
+                const adjustedValueB = valueB === -1 ? statusOrder.length : valueB;
+
+                return order === 'asc' ? adjustedValueA - adjustedValueB : adjustedValueB - adjustedValueA;
+            }
+
+
+            // Handle other columns (non-dropdown)
+            cellA = rowA.children[columnIndex].textContent.trim();
+            cellB = rowB.children[columnIndex].textContent.trim();
 
             // Date-specific sorting for "Crée le" (columnIndex 3) or "Modification Par" (columnIndex 4)
             if (columnIndex === 3 || columnIndex === 4) {
@@ -251,6 +284,7 @@ document.querySelectorAll('.icon-arrow').forEach(span => {
         this.innerHTML = order === 'asc' ? '&DownArrow;' : '&UpArrow;';
     });
 });
+
 
 
 /**

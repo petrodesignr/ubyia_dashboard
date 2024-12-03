@@ -93,42 +93,6 @@
                     </tr>
                 </thead>
                 
-                <!-- <tbody>
-                    <% if (tickets && tickets.length > 0) { %>
-                        <% tickets.forEach(ticket => { %>
-                            <tr>
-                                <td><%= ticket.user_firstname %> <%= ticket.user_lastname %><br><%= ticket.user_email %></td>
-                                <td><%= ticket.company_name %></td>
-                                <td><%= ticket.ubybox_serial_number%></td>
-                                <td>
-                                    Ticket #<%= ticket.ticket_id %><br>
-                                    Le: <%= new Date(ticket.ticket_date_create).toLocaleDateString('fr-FR') %>
-                                </td>
-                                <td>
-                                    <%= ticket.staff_first_name %> <%= ticket.staff_last_name %><br>
-                                    Le: <%= ticket.message_date_create ? new Date(ticket.message_date_create).toLocaleDateString('fr-FR') : 'N/A' %>
-                                </td>
-                                <td>
-                                    <p class="status<%= ticket.priority_name.toLowerCase().replace(' ', '_')  %>">
-                                        <%= ticket.priority_name  %>
-                                    </p>
-                                </td>
-                                <td>
-                                    <p class="status<%= ticket.status_name.toLowerCase().replace(' ', '_') %>"><%= ticket.status_name %></p>
-                                </td>
-                                <td>
-                                    <i class="fa-regular fa-message fa-2x"></i>
-                                </td>
-                            </tr>
-                        <% }); %>
-                    <% } else { %>
-                        <tr>
-                            <td colspan="8">No tickets available</td>
-                        </tr>
-                    <% } %>
-                </tbody> -->
-
-
                 <tbody>
                     <% if (tickets && tickets.length > 0) { %>
                         <% tickets.forEach(ticket => { %>
