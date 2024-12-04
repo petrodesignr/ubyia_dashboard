@@ -10,6 +10,34 @@ const popFilter = document.querySelector('.main_pop_filter');
 
 // Filtrer la recherche
 
+// function myFunction() {
+//     var input, filter, table, tr, rowsArray, tbody;
+//     input = document.getElementById("myInput");
+//     filter = input.value.toUpperCase();
+//     table = document.getElementById("ticketTable");
+//     tbody = table.getElementsByTagName("tbody")[0];
+//     tr = Array.from(tbody.getElementsByTagName("tr")); // Only consider rows within <tbody>
+
+//     // Si la saisie de recherche est vide, réinitialiser toutes les lignes
+//     if (filter === "") {
+//         tr.forEach(row => row.style.display = ""); // Afficher toutes les lignes
+//         return;
+//     }
+
+//     // Filtrer les lignes en fonction de la saisie de recherche
+//     tr.forEach(row => {
+//         var td = row.getElementsByTagName("td")[1]; // Cibler la colonne "Client"
+//         if (td) {
+//             var txtValue = td.textContent || td.innerText;
+//             if (txtValue.toUpperCase().startsWith(filter)) {
+//                 row.style.display = ""; // Afficher la ligne si elle correspond au filtre
+//             } else {
+//                 row.style.display = "none"; // Masquer la ligne si elle ne correspond pas
+//             }
+//         }
+//     });
+// }
+
 function myFunction() {
     var input, filter, table, tr, rowsArray, tbody;
     input = document.getElementById("myInput");
@@ -26,10 +54,21 @@ function myFunction() {
 
     // Filtrer les lignes en fonction de la saisie de recherche
     tr.forEach(row => {
-        var td = row.getElementsByTagName("td")[1]; // Cibler la colonne "Client"
-        if (td) {
-            var txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().startsWith(filter)) {
+        var clientTd = row.getElementsByTagName("td")[1]; // Colonne "Client"
+        var serveurTd = row.getElementsByTagName("td")[2]; // Colonne "Serveur"
+        var contactTd = row.getElementsByTagName("td")[0]; // Colonne "Contact"
+
+        if (clientTd || serveurTd || contactTd) {
+            var clientText = clientTd ? (clientTd.textContent || clientTd.innerText).toUpperCase() : "";
+            var serveurText = serveurTd ? (serveurTd.textContent || serveurTd.innerText).toUpperCase() : "";
+            var contactText = contactTd ? (contactTd.textContent || contactTd.innerText).toUpperCase() : "";
+
+            // Check if any column matches the filter
+            if (
+                clientText.startsWith(filter) ||
+                serveurText.startsWith(filter) ||
+                contactText.startsWith(filter)
+            ) {
                 row.style.display = ""; // Afficher la ligne si elle correspond au filtre
             } else {
                 row.style.display = "none"; // Masquer la ligne si elle ne correspond pas
@@ -37,6 +76,7 @@ function myFunction() {
         }
     });
 }
+
 
 
   
