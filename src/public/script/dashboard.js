@@ -10,34 +10,6 @@ const popFilter = document.querySelector('.main_pop_filter');
 
 // Filtrer la recherche
 
-// function myFunction() {
-//     var input, filter, table, tr, rowsArray, tbody;
-//     input = document.getElementById("myInput");
-//     filter = input.value.toUpperCase();
-//     table = document.getElementById("ticketTable");
-//     tbody = table.getElementsByTagName("tbody")[0];
-//     tr = Array.from(tbody.getElementsByTagName("tr")); // Only consider rows within <tbody>
-
-//     // Si la saisie de recherche est vide, réinitialiser toutes les lignes
-//     if (filter === "") {
-//         tr.forEach(row => row.style.display = ""); // Afficher toutes les lignes
-//         return;
-//     }
-
-//     // Filtrer les lignes en fonction de la saisie de recherche
-//     tr.forEach(row => {
-//         var td = row.getElementsByTagName("td")[1]; // Cibler la colonne "Client"
-//         if (td) {
-//             var txtValue = td.textContent || td.innerText;
-//             if (txtValue.toUpperCase().startsWith(filter)) {
-//                 row.style.display = ""; // Afficher la ligne si elle correspond au filtre
-//             } else {
-//                 row.style.display = "none"; // Masquer la ligne si elle ne correspond pas
-//             }
-//         }
-//     });
-// }
-
 function myFunction() {
     var input, filter, table, tr, rowsArray, tbody;
     input = document.getElementById("myInput");
@@ -76,9 +48,6 @@ function myFunction() {
         }
     });
 }
-
-
-
   
 
 // Affichage du filtre
@@ -385,6 +354,37 @@ $(document).ready(function () {
         });
     }
 });
+
+//filtrer par utiilisateur
+// function filterByUser() {
+//     const url = 'http://localhost:5001/tickets/dashboard/user';
+//     window.location.href = url;
+// }
+
+function filterByUser() {
+    var table, tbody, tr, connectedUser;
+
+    // Dynamically get the connected user's name from the header
+    connectedUser = document.getElementById("userHeader").textContent.trim();
+
+    table = document.getElementById("ticketTable");
+    tbody = table.getElementsByTagName("tbody")[0];
+    tr = Array.from(tbody.getElementsByTagName("tr")); // Only consider rows within <tbody>
+
+    // Filter rows to show only tickets modified by the connected user
+    tr.forEach(row => {
+        var modifierTd = row.getElementsByTagName("td")[3]; // Assuming the "Modified By" column is in td[3]
+        if (modifierTd) {
+            var modifierText = modifierTd.textContent.trim(); // Get the "Modified By" text
+            if (modifierText === connectedUser) {
+                row.style.display = ""; // Show the row if modified by the connected user
+            } else {
+                row.style.display = "none"; // Hide the row if not modified by the connected user
+            }
+        }
+    });
+}
+
 
 
 
