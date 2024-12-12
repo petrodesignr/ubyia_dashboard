@@ -9,5 +9,12 @@ router.post('/dashboard/priority/:id', sessionAuth, dashboardController.updatePr
 
 router.post('/dashboard/status/:id', sessionAuth, dashboardController.updateStatus);
 
+router.post('/dashboard/filter', sessionAuth, dashboardController.getFilteredTickets);
+
+
+// router.get('/dashboard/priorityfilter/:id', sessionAuth, dashboardController.gettiketPriority);
+
+// router.get('/dashboard/statusfilter/:id', sessionAuth, dashboardController.gettiketStatus);
+
 
 module.exports = router;

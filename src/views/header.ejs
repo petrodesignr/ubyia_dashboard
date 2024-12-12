@@ -3,11 +3,14 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <header>
-   <% if (staff) { %>
-      
-      <a id="staffHeader" href="/staff/account" ><span class="material-icons">person</span><br><%=staff.staff_last_name %></a>
+  <div>
+    <% if (staff) { %>
+      <span class="material-icons">person</span>
+      <a id="staffHeader" href="/staff/account" ><br><%= staff.staff_first_name +" "+ staff.staff_last_name %></a>
       
     <% } %>
+  </div>
+   
   <h1>
     <img src="/media/logo_ubya_blanc.png" alt="logo ubya" />
   </h1>

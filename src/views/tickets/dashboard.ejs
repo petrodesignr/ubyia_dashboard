@@ -34,7 +34,9 @@
             <div class="main_pop_filter">
                 <div>
                     <button onclick="resetFilter()">Reset Filter</button>
-                    <button onclick="filterByUser()">Show My Tickets</button>
+                    <label>
+                        <input type="checkbox" id="filterByUserCheckbox" onchange="toggleFilterByUser()"> Show My Tickets
+                    </label>
                 </div>
                 <div class="date-filter">
                     <input type="checkbox" id="activateDateFilter">
@@ -45,39 +47,40 @@
                     <span id="dateRangeLabel"><%= dateNow %></span>
                     <i class="fa fa-caret-down"></i>
                 </div>
-                
-            
-                <div class="pop_filter">
-                <h1>Priorité</h1>
-                <div class="filter_box">
-                    <% priority.forEach(priority => { %>
-                        <div>
-                            <input 
-                                type="checkbox" 
-                                id="<%= priority.priority_name %>" 
-                                value="<%= priority.priority_name.toLowerCase().replace(' ', '_') %>" 
-                                name="filterPriority">
-                            <label for="<%= priority.priority_name %>"><%= priority.priority_name %></label>
-                        </div>
-                    <% }); %>
-                </div>
-            </div>
 
-                <div class="pop_filter">
-                    <h1>Statuts</h1>
-                    <div class="filter_box">
-                        <% status.forEach(status => { %>
-                            <div>
-                                <input 
-                                    type="checkbox" 
-                                    id="<%= status.status_name %>" 
-                                    value="<%= status.status_name.toLowerCase().replace(' ', '_') %>" 
-                                    name="filterStatus">
-                                <label for="<%= status.status_name %>"><%= status.status_name %></label>
-                            </div>
-                        <% }); %>
-                    </div>
-                </div>
+
+                <form id="filterForm">
+    <div>
+        <h4>Priorité</h4>
+        <% priority.forEach(option => { %>
+            <div>
+                <input 
+                    type="checkbox" 
+                    id="priority-<%= option.priority_id %>" 
+                    name="priority" 
+                    value="<%= option.priority_id %>">
+                <label for="priority-<%= option.priority_id %>"><%= option.priority_name %></label>
+            </div>
+        <% }); %>
+    </div>
+
+    <div>
+        <h4>Statut</h4>
+        <% status.forEach(option => { %>
+            <div>
+                <input 
+                    type="checkbox" 
+                    id="status-<%= option.status_id %>" 
+                    name="status" 
+                    value="<%= option.status_id %>">
+                <label for="status-<%= option.status_id %>"><%= option.status_name %></label>
+            </div>
+        <% }); %>
+    </div>
+
+    <button type="submit">Filtrer</button>
+</form>
+
 
             </div>
         </section>
@@ -114,7 +117,7 @@
                                 </td>
                                 <td>
                                     <!-- Priority Dropdown -->
-                                    <select class="priority-dropdown status<%= ticket.priority_name.toLowerCase().replace(' ', '_') %>" data-ticket-id="<%= ticket.ticket_id %>">
+                                    <select class="priority-dropdown color<%= ticket.priority_name.toLowerCase().replace(' ', '_') %>" data-ticket-id="<%= ticket.ticket_id %>">
                                         <% priority.forEach(option => { %>
                                             <option value="<%= option.priority_id %>" <%= ticket.priority_name === option.priority_name ? 'selected' : '' %>>
                                                 <%= option.priority_name %>
@@ -124,7 +127,7 @@
                                 </td>
                                 <td>
                                     <!-- Status Dropdown -->
-                                    <select class="status-dropdown status<%= ticket.status_name.toLowerCase().replace(' ', '_') %>" data-ticket-id="<%= ticket.ticket_id %>">
+                                    <select class="status-dropdown color<%= ticket.status_name.toLowerCase().replace(' ', '_') %>" data-ticket-id="<%= ticket.ticket_id %>">
                                         <% status.forEach(option => { %>
                                             <option value="<%= option.status_id %>" <%= ticket.status_name === option.status_name ? 'selected' : '' %>>
                                                 <%= option.status_name %>
@@ -147,7 +150,29 @@
 
 
             </table>
+            
         </section>
+        <!-- Pagination -->
+    <div class="pagination">
+        <% if (totalTickets > 0) { %>
+            <% if (currentPage > 1) { %>
+                <a href="?page=<%= currentPage - 1 %>">Précédent</a>
+            <% } %>
+
+            <% for (let i = 1; i <= totalPages; i++) { %>
+                <a href="?page=<%= i %>" <% if (i === currentPage) { %> style="font-weight: bold;" <% } %>>
+                    <%= i %>
+                </a>
+            <% } %>
+
+            <% if (currentPage < totalPages) { %>
+                <a href="?page=<%= currentPage + 1 %>">Suivant</a>
+            <% } %>
+        <% } else { %>
+            <p>Aucun ticket disponible pour le moment.</p>
+        <% } %>
+    </div>
+    <!-- Fin de la pagination ----->
     </main>
       </body>
       <script src="/script/dashboard.js"></script>

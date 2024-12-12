@@ -233,8 +233,8 @@ tbody tr.hide td p {
     text-align: center;
 } */
 
-.statusfaible,
-.statusresolus {
+.colorfaible,
+.colorresolus {
     padding: .4rem 0;
         border-radius: 2rem;
         text-align: center;
@@ -242,8 +242,8 @@ tbody tr.hide td p {
     color: #006b21;
 }
 
-.statusurgent,
-.statusen_attente {
+.colorurgent,
+.coloren_attente {
     padding: .4rem 0;
         border-radius: 2rem;
         text-align: center;
@@ -251,15 +251,15 @@ tbody tr.hide td p {
     color: #b30021;
 }
 
-.statusen_cours {
+.coloren_cours {
     padding: .4rem 0;
         border-radius: 2rem;
         text-align: center;
     background-color: #ebc474;
 }
 
-.statusnormal,
-.statusnouveau {
+.colornormal,
+.colornouveau {
     padding: .4rem 0;
         border-radius: 2rem;
         text-align: center;

@@ -180,39 +180,201 @@ $(function() {
 
 // checkbox de filtre
 
-$(document).ready(function () {
-    $("input[name='filterPriority'], input[name='filterStatus']").change(function () {
-        // Récupérer les priorités sélectionnées à partir des cases à cocher
-        const selectedPriorities = $("input[name='filterPriority']:checked").map(function () {
-            return $(this).val().toLowerCase(); // Normaliser en minuscule
-        }).get();
+// $(document).ready(function () {
+//     $("input[name='filterPriority'], input[name='filterStatus']").change(function () {
+//         // Récupérer les priorités sélectionnées à partir des cases à cocher
+//         const selectedPriorities = $("input[name='filterPriority']:checked").map(function () {
+//             return $(this).val().toLowerCase(); // Normaliser en minuscule
+//         }).get();
 
-        // Récupérer les statuts sélectionnés à partir des cases à cocher
-        const selectedStatuses = $("input[name='filterStatus']:checked").map(function () {
-            return $(this).val().toLowerCase().replace(' ', '_'); // Normaliser en minuscule et formater
-        }).get();
+//         // Récupérer les statuts sélectionnés à partir des cases à cocher
+//         const selectedStatuses = $("input[name='filterStatus']:checked").map(function () {
+//             return $(this).val().toLowerCase().replace(' ', '_'); // Normaliser en minuscule et formater
+//         }).get();
 
-        // Parcourir chaque ligne du tableau
-        $("#ticketTable tbody tr").each(function () {
-            const $row = $(this);
+//         // Parcourir chaque ligne du tableau
+//         $("#ticketTable tbody tr").each(function () {
+//             const $row = $(this);
 
-            // Extraire la priorité et le statut des menus déroulants
-            const rowPriority = $row.find("td:nth-child(6) select option:selected").text().trim().toLowerCase(); // Texte sélectionné du menu déroulant pour la priorité
-            const rowStatus = $row.find("td:nth-child(7) select option:selected").text().trim().toLowerCase().replace(' ', '_'); // Texte sélectionné du menu déroulant pour le statut
+//             // Extraire la priorité et le statut des menus déroulants
+//             const rowPriority = $row.find("td:nth-child(6) select option:selected").text().trim().toLowerCase(); // Texte sélectionné du menu déroulant pour la priorité
+//             const rowStatus = $row.find("td:nth-child(7) select option:selected").text().trim().toLowerCase().replace(' ', '_'); // Texte sélectionné du menu déroulant pour le statut
 
-            // Vérifier si la ligne correspond aux filtres sélectionnés
-            const matchesPriority = !selectedPriorities.length || selectedPriorities.includes(rowPriority);
-            const matchesStatus = !selectedStatuses.length || selectedStatuses.includes(rowStatus);
+//             // Vérifier si la ligne correspond aux filtres sélectionnés
+//             const matchesPriority = !selectedPriorities.length || selectedPriorities.includes(rowPriority);
+//             const matchesStatus = !selectedStatuses.length || selectedStatuses.includes(rowStatus);
 
-            // Afficher ou masquer la ligne en fonction des filtres
-            if (matchesPriority && matchesStatus) {
-                $row.show();
-            } else {
-                $row.hide();
-            }
+//             // Afficher ou masquer la ligne en fonction des filtres
+//             if (matchesPriority && matchesStatus) {
+//                 $row.show();
+//             } else {
+//                 $row.hide();
+//             }
+//         });
+//     });
+// });
+
+document.getElementById('filterForm').addEventListener('submit', async function (e) {
+    e.preventDefault(); // Prevent the default form submission
+
+    const selectedPriorities = Array.from(document.querySelectorAll('input[name="priority"]:checked')).map(el => el.value);
+    const selectedStatuses = Array.from(document.querySelectorAll('input[name="status"]:checked')).map(el => el.value);
+
+    if (selectedPriorities.length === 0) {
+        selectedPriorities.push(1, 2, 3)
+    }
+
+    if (selectedStatuses.length === 0) {
+        selectedStatuses.push(1, 2, 3, 4)
+    }
+
+    const requestData = {
+        priority_id: selectedPriorities,
+        status_id: selectedStatuses
+    };
+
+    try {
+        const response = await fetch('http://localhost:5001/tickets/dashboard/filter', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData),
+            credentials: 'include',
         });
-    });
+
+        console.log('Response Status:', response.status);
+        console.log('Response Headers:', response.headers);
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Filtered Data:', data);
+
+            const tickets = data.data || []; // Fallback to an empty array if undefined
+            const priorities = data.priority || []; // Fallback to empty array
+            const statuses = data.status || []; // Fallback to empty array
+
+            updateTicketsTable(tickets, priorities, statuses);
+        } else {
+            const errorText = await response.text();
+            console.error('Error Response Text:', errorText);
+        }
+    } catch (error) {
+        console.error('Request failed:', error);
+    }
+
+
 });
+
+function updateTicketsTable(tickets = [], priorities = [], statuses = []) {
+    const tbody = document.querySelector('tbody');
+    tbody.innerHTML = ''; // Clear the table
+
+    if (tickets.length > 0) {
+        tickets.forEach(ticket => {
+            // Get priority and status classes directly from the ticket
+            let priorityClass = '';
+            let statusClass = '';
+
+            // Set priority class
+            switch (ticket.priority_name.toLowerCase()) {
+                case 'faible':
+                    priorityClass = 'colorfaible';
+                    break;
+                case 'urgent':
+                    priorityClass = 'colorurgent';
+                    break;
+                case 'normal':
+                    priorityClass = 'colornormal';
+                    break;
+                case 'nouveau':
+                    priorityClass = 'colornouveau';
+                    break;
+                default:
+                    priorityClass = '';
+                    break;
+            }
+
+            // Set status class
+            switch (ticket.status_name.toLowerCase()) {
+                case 'faible':
+                    statusClass = 'colorfaible';
+                    break;
+                case 'resolus':
+                    statusClass = 'colorresolus';
+                    break;
+                case 'urgent':
+                    statusClass = 'colorurgent';
+                    break;
+                case 'en attente':
+                    statusClass = 'coloren_attente';
+                    break;
+                case 'en cours':
+                    statusClass = 'coloren_cours';
+                    break;
+                case 'normal':
+                    statusClass = 'colornormal';
+                    break;
+                case 'nouveau':
+                    statusClass = 'colornouveau';
+                    break;
+                default:
+                    statusClass = '';
+                    break;
+            }
+
+            // Create priority options
+            const priorityOptions = priorities.map(option => `
+                <option value="${option.priority_id}" ${ticket.priority_name === option.priority_name ? 'selected' : ''}>
+                    ${option.priority_name}
+                </option>
+            `).join('');
+
+            // Create status options
+            const statusOptions = statuses.map(option => `
+                <option value="${option.status_id}" ${ticket.status_name === option.status_name ? 'selected' : ''}>
+                    ${option.status_name}
+                </option>
+            `).join('');
+
+            const row = `
+                <tr class="ticket-row">
+                    <td>${ticket.user_firstname} ${ticket.user_lastname}<br>${ticket.user_email}</td>
+                    <td>${ticket.company_name}</td>
+                    <td>${ticket.ubybox_serial_number}</td>
+                    <td>
+                        Ticket #${ticket.ticket_id}<br>
+                        Le: ${new Date(ticket.ticket_date_create).toLocaleDateString('fr-FR')}
+                    </td>
+                    <td>
+                        ${ticket.staff_first_name} ${ticket.staff_last_name}<br>
+                        Le: ${ticket.message_date_create ? new Date(ticket.message_date_create).toLocaleDateString('fr-FR') : 'N/A'}
+                    </td>
+                    <td>
+                        <select class="priority-dropdown ${priorityClass}" data-ticket-id="${ticket.ticket_id}">
+                            ${priorityOptions}
+                        </select>
+                    </td>
+                    <td>
+                        <select class="status-dropdown ${statusClass}" data-ticket-id="${ticket.ticket_id}">
+                            ${statusOptions}
+                        </select>
+                    </td>
+                    <td>
+                        <i class="fa-regular fa-message fa-2x"></i>
+                    </td>
+                </tr>
+            `;
+
+            // Insert the row into the table
+            tbody.insertAdjacentHTML('beforeend', row);
+        });
+    } else {
+        tbody.innerHTML = '<tr><td colspan="8">No tickets available</td></tr>';
+    }
+}
+
+
 
 
 
@@ -355,35 +517,181 @@ $(document).ready(function () {
     }
 });
 
+    // Helper function to generate dropdown options
+    function getOptions(selected, type) {
+        const options = type === 'priority' ? priority : status;
+        return options.map(option => `
+            <option value="${option.id}" ${option.name === selected ? 'selected' : ''}>
+                ${option.name}
+            </option>`).join('');
+    }
+
+
 //filtrer par utiilisateur
-// function filterByUser() {
-//     const url = 'http://localhost:5001/tickets/dashboard/user';
-//     window.location.href = url;
-// }
+
 
 function filterByUser() {
-    var table, tbody, tr, connectedUser;
+    console.log("Filter by user triggered"); // Debug log
 
-    // Dynamically get the connected user's name from the header
-    connectedUser = document.getElementById("userHeader").textContent.trim();
+    // Get the connected user's name from the staffHeader element
+    var staffHeader = document.getElementById("staffHeader");
+    var connectedUser = staffHeader.textContent.trim().toLowerCase(); // Convert to lowercase for consistent comparison
+    console.log("Connected User:", connectedUser); // Debug log
 
-    table = document.getElementById("ticketTable");
-    tbody = table.getElementsByTagName("tbody")[0];
-    tr = Array.from(tbody.getElementsByTagName("tr")); // Only consider rows within <tbody>
+    // Get all rows of the table body
+    var table = document.getElementById("ticketTable");
+    var tbody = table.getElementsByTagName("tbody")[0];
+    var rows = Array.from(tbody.getElementsByTagName("tr")); // Convert HTMLCollection to array for easier iteration
 
-    // Filter rows to show only tickets modified by the connected user
-    tr.forEach(row => {
-        var modifierTd = row.getElementsByTagName("td")[3]; // Assuming the "Modified By" column is in td[3]
-        if (modifierTd) {
-            var modifierText = modifierTd.textContent.trim(); // Get the "Modified By" text
-            if (modifierText === connectedUser) {
-                row.style.display = ""; // Show the row if modified by the connected user
+    rows.forEach((row, rowIndex) => {
+        // Get the "Modification Par" column (5th column, index 4 in JavaScript)
+        var modifiedByCell = row.querySelector("td:nth-child(5)");
+
+        if (modifiedByCell) {
+            console.log(`Row ${rowIndex} Cell Content (raw):`, modifiedByCell.innerHTML); // Debug raw HTML content
+
+            // Extract the staff name from the cell before the <br> tag
+            var modifierName = modifiedByCell.innerHTML.split('<br>')[0].trim().toLowerCase(); // Convert to lowercase
+            console.log(`Row ${rowIndex} Modifier Name (extracted):`, modifierName);
+
+            // Check if the row should be displayed
+            if (modifierName === connectedUser) {
+                row.style.display = ""; // Show matching rows
+                console.log(`Row ${rowIndex} displayed`);
             } else {
-                row.style.display = "none"; // Hide the row if not modified by the connected user
+                row.style.display = "none"; // Hide non-matching rows
+                console.log(`Row ${rowIndex} hidden`);
             }
+        } else {
+            console.error(`Row ${rowIndex} has no "Modification Par" column.`);
         }
     });
 }
+
+function toggleFilterByUser() {
+    var filterCheckbox = document.getElementById("filterByUserCheckbox");
+    if (filterCheckbox.checked) {
+        filterByUser(); // Apply the filter
+    } else {
+        resetFilter(); // Reset the filter when unchecked
+    }
+}
+
+// reset functions filter
+
+
+async function resetFilter() {
+    // Reset all filter inputs (checkboxes, text fields, dropdowns)
+    document.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
+    document.querySelectorAll('input[type="text"]').forEach(input => input.value = '');
+    document.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+
+    // Send a GET request to fetch the initial dashboard HTML
+    try {
+        const response = await fetch('http://localhost:5001/tickets/dashboard?page=1', {
+            method: 'GET',
+            credentials: 'include',
+        });
+
+        if (response.ok) {
+            const html = await response.text(); // Get the HTML response as a string
+
+            // Parse the HTML string into a DOM structure
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            // Extract the table body from the response
+            const newTbody = doc.querySelector('#ticketTable tbody');
+            if (newTbody) {
+                const currentTbody = document.querySelector('#ticketTable tbody');
+                currentTbody.innerHTML = newTbody.innerHTML; // Replace the current table body
+            } else {
+                console.error('No table body found in the returned HTML.');
+            }
+
+            // Optionally reset pagination UI if included in the HTML
+            const newPagination = doc.querySelector('.pagination');
+            if (newPagination) {
+                const currentPagination = document.querySelector('.pagination');
+                if (currentPagination) {
+                    currentPagination.innerHTML = newPagination.innerHTML; // Update pagination
+                }
+            }
+
+        } else {
+            console.error('Failed to reset data:', await response.text());
+        }
+    } catch (error) {
+        console.error('Request failed:', error);
+    }
+}
+
+function resetTicketsTable(tickets = [], priorities = [], statuses = []) {
+    const tbody = document.querySelector('#ticketTable tbody');
+    tbody.innerHTML = ''; // Clear the table
+
+    if (tickets.length > 0) {
+        tickets.forEach(ticket => {
+            const priorityClass = getPriorityClass(ticket.priority_name);
+            const statusClass = getStatusClass(ticket.status_name);
+
+            const row = `
+                <tr>
+                    <td>${ticket.user_firstname} ${ticket.user_lastname}<br>${ticket.user_email}</td>
+                    <td>${ticket.company_name}</td>
+                    <td>${ticket.ubybox_serial_number}</td>
+                    <td>Ticket #${ticket.ticket_id}<br>Le: ${new Date(ticket.ticket_date_create).toLocaleDateString()}</td>
+                    <td>${ticket.staff_first_name} ${ticket.staff_last_name}<br>Le: ${ticket.message_date_create ? new Date(ticket.message_date_create).toLocaleDateString() : 'N/A'}</td>
+                    <td><select class="${priorityClass}">${renderPriorityOptions(ticket.priority_name, priorities)}</select></td>
+                    <td><select class="${statusClass}">${renderStatusOptions(ticket.status_name, statuses)}</select></td>
+                    <td><i class="fa-regular fa-message fa-2x"></i></td>
+                </tr>`;
+            tbody.insertAdjacentHTML('beforeend', row);
+        });
+    } else {
+        tbody.innerHTML = '<tr><td colspan="8">No tickets available</td></tr>';
+    }
+}
+
+function getPriorityClass(priority) {
+    switch (priority.toLowerCase()) {
+        case 'faible': return 'colorfaible';
+        case 'urgent': return 'colorurgent';
+        case 'normal': return 'colornormal';
+        default: return '';
+    }
+}
+
+function getStatusClass(status) {
+    switch (status.toLowerCase()) {
+        case 'faible': return 'colorfaible';
+        case 'resolus': return 'colorresolus';
+        case 'urgent': return 'colorurgent';
+        case 'en attente': return 'coloren_attente';
+        case 'en cours': return 'coloren_cours';
+        case 'normal': return 'colornormal';
+        default: return '';
+    }
+}
+
+function renderPriorityOptions(selected, priorities) {
+    return priorities.map(option =>
+        `<option value="${option.priority_id}" ${option.priority_name === selected ? 'selected' : ''}>
+            ${option.priority_name}
+        </option>`
+    ).join('');
+}
+
+function renderStatusOptions(selected, statuses) {
+    return statuses.map(option =>
+        `<option value="${option.status_id}" ${option.status_name === selected ? 'selected' : ''}>
+            ${option.status_name}
+        </option>`
+    ).join('');
+}
+
+
+
 
 
 
