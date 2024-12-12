@@ -4,51 +4,6 @@
 const sql = require('./database');
 
 const ticketModel = {
-    // getAllTickets: () => {
-    //     return new Promise((resolve, reject) => {
-    //         const sqlRequest = `
-    //             SELECT 
-    //                 m.message_date_create,
-    //                 t.ticket_date_create,
-    //                 s.staff_last_name,
-    //                 s.staff_first_name,
-    //                 t.ticket_id,
-    //                 t.id_user,
-    //                 p.priority_name,
-    //                 st.status_name,
-    //                 t.ubybox_serial_number,
-    //                 u.user_firstname,
-    //                 u.user_lastname,
-    //                 u.user_email,
-    //                 c.company_name
-    //             FROM 
-    //                 message m
-    //             INNER JOIN 
-    //                 staff s ON m.id_staff = s.staff_id
-    //             INNER JOIN 
-    //                 ticket t ON m.id_ticket = t.ticket_id
-    //             INNER JOIN
-    //                 status st ON t.id_status = st.status_id
-    //             INNER JOIN 
-    //                 priority p ON t.id_priority = p.priority_id
-    //             INNER JOIN 
-    //                 user u ON t.id_user = u.user_id
-    //             INNER JOIN 
-    //                 company c ON u.id_company = c.company_id
-    //             GROUP BY 
-    //                 t.ticket_id
-    //             ORDER BY 
-    //                 t.ticket_date_create ASC;
-    //         `;
-
-    //         sql.query(sqlRequest, (err, res) => {
-    //             if (err) {
-    //                 return reject(err);
-    //             }
-    //             resolve(res);
-    //         });
-    //     });
-    // },
 
     getAllTickets: (limit, offset) => {
         return new Promise((resolve, reject) => {
@@ -174,8 +129,10 @@ const ticketModel = {
     },
 
 
-    getTicketsByFilters: (priority, status) => {
+    getTicketsByFilters: (priority, status, staff, limit, offset) => {
         return new Promise((resolve, reject) => {
+
+            console.log('Filters:', { priority, status, staff, limit, offset }); // Debug log
 
             let sqlRequest = `
             SELECT 
@@ -221,6 +178,11 @@ const ticketModel = {
                 params.push(status);
             }
 
+            if (staff) {
+                conditions.push("s.staff_id IN (?)");
+                params.push(staff);
+            }
+
             if (conditions.length > 0) {
                 sqlRequest += ` WHERE ${conditions.join(' AND ')}`;
             }
@@ -229,10 +191,14 @@ const ticketModel = {
             GROUP BY 
                 t.ticket_id
             ORDER BY 
-                t.ticket_date_create ASC;
+                t.ticket_date_create ASC
+            LIMIT ? OFFSET ?;
         `;
 
-            // params.push(limit, offset); // Add limit and offset to the params array
+            params.push(limit, offset); // Add limit and offset to the params array
+
+            console.log('Generated SQL Query:', sqlRequest); // Log query
+            console.log('Query Parameters:', params); // Log parameters
             sql.query(sqlRequest, params, (err, res) => {
                 if (err) {
                     console.error('SQL Error:', err);

@@ -219,6 +219,11 @@ document.getElementById('filterForm').addEventListener('submit', async function 
 
     const selectedPriorities = Array.from(document.querySelectorAll('input[name="priority"]:checked')).map(el => el.value);
     const selectedStatuses = Array.from(document.querySelectorAll('input[name="status"]:checked')).map(el => el.value);
+    const selectedStaff = Array.from(document.querySelectorAll('input[name="staff"]:checked')).map(el => el.value);
+
+    if (selectedStaff.length === 0) {
+        selectedStaff.push(selectedStaff)
+    }
 
     if (selectedPriorities.length === 0) {
         selectedPriorities.push(1, 2, 3)
@@ -230,7 +235,8 @@ document.getElementById('filterForm').addEventListener('submit', async function 
 
     const requestData = {
         priority_id: selectedPriorities,
-        status_id: selectedStatuses
+        status_id: selectedStatuses,
+        staff_id: selectedStaff
     };
 
     try {
@@ -373,9 +379,6 @@ function updateTicketsTable(tickets = [], priorities = [], statuses = []) {
         tbody.innerHTML = '<tr><td colspan="8">No tickets available</td></tr>';
     }
 }
-
-
-
 
 
 // ascendant and descendant
@@ -580,115 +583,115 @@ function toggleFilterByUser() {
 // reset functions filter
 
 
-async function resetFilter() {
-    // Reset all filter inputs (checkboxes, text fields, dropdowns)
-    document.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
-    document.querySelectorAll('input[type="text"]').forEach(input => input.value = '');
-    document.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+// async function resetFilter() {
+//     // Reset all filter inputs (checkboxes, text fields, dropdowns)
+//     document.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
+//     document.querySelectorAll('input[type="text"]').forEach(input => input.value = '');
+//     document.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
 
-    // Send a GET request to fetch the initial dashboard HTML
-    try {
-        const response = await fetch('http://localhost:5001/tickets/dashboard?page=1', {
-            method: 'GET',
-            credentials: 'include',
-        });
+//     // Send a GET request to fetch the initial dashboard HTML
+//     try {
+//         const response = await fetch('http://localhost:5001/tickets/dashboard?page=1', {
+//             method: 'GET',
+//             credentials: 'include',
+//         });
 
-        if (response.ok) {
-            const html = await response.text(); // Get the HTML response as a string
+//         if (response.ok) {
+//             const html = await response.text(); // Get the HTML response as a string
 
-            // Parse the HTML string into a DOM structure
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
+//             // Parse the HTML string into a DOM structure
+//             const parser = new DOMParser();
+//             const doc = parser.parseFromString(html, 'text/html');
 
-            // Extract the table body from the response
-            const newTbody = doc.querySelector('#ticketTable tbody');
-            if (newTbody) {
-                const currentTbody = document.querySelector('#ticketTable tbody');
-                currentTbody.innerHTML = newTbody.innerHTML; // Replace the current table body
-            } else {
-                console.error('No table body found in the returned HTML.');
-            }
+//             // Extract the table body from the response
+//             const newTbody = doc.querySelector('#ticketTable tbody');
+//             if (newTbody) {
+//                 const currentTbody = document.querySelector('#ticketTable tbody');
+//                 currentTbody.innerHTML = newTbody.innerHTML; // Replace the current table body
+//             } else {
+//                 console.error('No table body found in the returned HTML.');
+//             }
 
-            // Optionally reset pagination UI if included in the HTML
-            const newPagination = doc.querySelector('.pagination');
-            if (newPagination) {
-                const currentPagination = document.querySelector('.pagination');
-                if (currentPagination) {
-                    currentPagination.innerHTML = newPagination.innerHTML; // Update pagination
-                }
-            }
+//             // Optionally reset pagination UI if included in the HTML
+//             const newPagination = doc.querySelector('.pagination');
+//             if (newPagination) {
+//                 const currentPagination = document.querySelector('.pagination');
+//                 if (currentPagination) {
+//                     currentPagination.innerHTML = newPagination.innerHTML; // Update pagination
+//                 }
+//             }
 
-        } else {
-            console.error('Failed to reset data:', await response.text());
-        }
-    } catch (error) {
-        console.error('Request failed:', error);
-    }
-}
+//         } else {
+//             console.error('Failed to reset data:', await response.text());
+//         }
+//     } catch (error) {
+//         console.error('Request failed:', error);
+//     }
+// }
 
-function resetTicketsTable(tickets = [], priorities = [], statuses = []) {
-    const tbody = document.querySelector('#ticketTable tbody');
-    tbody.innerHTML = ''; // Clear the table
+// function resetTicketsTable(tickets = [], priorities = [], statuses = []) {
+//     const tbody = document.querySelector('#ticketTable tbody');
+//     tbody.innerHTML = ''; // Clear the table
 
-    if (tickets.length > 0) {
-        tickets.forEach(ticket => {
-            const priorityClass = getPriorityClass(ticket.priority_name);
-            const statusClass = getStatusClass(ticket.status_name);
+//     if (tickets.length > 0) {
+//         tickets.forEach(ticket => {
+//             const priorityClass = getPriorityClass(ticket.priority_name);
+//             const statusClass = getStatusClass(ticket.status_name);
 
-            const row = `
-                <tr>
-                    <td>${ticket.user_firstname} ${ticket.user_lastname}<br>${ticket.user_email}</td>
-                    <td>${ticket.company_name}</td>
-                    <td>${ticket.ubybox_serial_number}</td>
-                    <td>Ticket #${ticket.ticket_id}<br>Le: ${new Date(ticket.ticket_date_create).toLocaleDateString()}</td>
-                    <td>${ticket.staff_first_name} ${ticket.staff_last_name}<br>Le: ${ticket.message_date_create ? new Date(ticket.message_date_create).toLocaleDateString() : 'N/A'}</td>
-                    <td><select class="${priorityClass}">${renderPriorityOptions(ticket.priority_name, priorities)}</select></td>
-                    <td><select class="${statusClass}">${renderStatusOptions(ticket.status_name, statuses)}</select></td>
-                    <td><i class="fa-regular fa-message fa-2x"></i></td>
-                </tr>`;
-            tbody.insertAdjacentHTML('beforeend', row);
-        });
-    } else {
-        tbody.innerHTML = '<tr><td colspan="8">No tickets available</td></tr>';
-    }
-}
+//             const row = `
+//                 <tr>
+//                     <td>${ticket.user_firstname} ${ticket.user_lastname}<br>${ticket.user_email}</td>
+//                     <td>${ticket.company_name}</td>
+//                     <td>${ticket.ubybox_serial_number}</td>
+//                     <td>Ticket #${ticket.ticket_id}<br>Le: ${new Date(ticket.ticket_date_create).toLocaleDateString()}</td>
+//                     <td>${ticket.staff_first_name} ${ticket.staff_last_name}<br>Le: ${ticket.message_date_create ? new Date(ticket.message_date_create).toLocaleDateString() : 'N/A'}</td>
+//                     <td><select class="${priorityClass}">${renderPriorityOptions(ticket.priority_name, priorities)}</select></td>
+//                     <td><select class="${statusClass}">${renderStatusOptions(ticket.status_name, statuses)}</select></td>
+//                     <td><i class="fa-regular fa-message fa-2x"></i></td>
+//                 </tr>`;
+//             tbody.insertAdjacentHTML('beforeend', row);
+//         });
+//     } else {
+//         tbody.innerHTML = '<tr><td colspan="8">No tickets available</td></tr>';
+//     }
+// }
 
-function getPriorityClass(priority) {
-    switch (priority.toLowerCase()) {
-        case 'faible': return 'colorfaible';
-        case 'urgent': return 'colorurgent';
-        case 'normal': return 'colornormal';
-        default: return '';
-    }
-}
+// function getPriorityClass(priority) {
+//     switch (priority.toLowerCase()) {
+//         case 'faible': return 'colorfaible';
+//         case 'urgent': return 'colorurgent';
+//         case 'normal': return 'colornormal';
+//         default: return '';
+//     }
+// }
 
-function getStatusClass(status) {
-    switch (status.toLowerCase()) {
-        case 'faible': return 'colorfaible';
-        case 'resolus': return 'colorresolus';
-        case 'urgent': return 'colorurgent';
-        case 'en attente': return 'coloren_attente';
-        case 'en cours': return 'coloren_cours';
-        case 'normal': return 'colornormal';
-        default: return '';
-    }
-}
+// function getStatusClass(status) {
+//     switch (status.toLowerCase()) {
+//         case 'faible': return 'colorfaible';
+//         case 'resolus': return 'colorresolus';
+//         case 'urgent': return 'colorurgent';
+//         case 'en attente': return 'coloren_attente';
+//         case 'en cours': return 'coloren_cours';
+//         case 'normal': return 'colornormal';
+//         default: return '';
+//     }
+// }
 
-function renderPriorityOptions(selected, priorities) {
-    return priorities.map(option =>
-        `<option value="${option.priority_id}" ${option.priority_name === selected ? 'selected' : ''}>
-            ${option.priority_name}
-        </option>`
-    ).join('');
-}
+// function renderPriorityOptions(selected, priorities) {
+//     return priorities.map(option =>
+//         `<option value="${option.priority_id}" ${option.priority_name === selected ? 'selected' : ''}>
+//             ${option.priority_name}
+//         </option>`
+//     ).join('');
+// }
 
-function renderStatusOptions(selected, statuses) {
-    return statuses.map(option =>
-        `<option value="${option.status_id}" ${option.status_name === selected ? 'selected' : ''}>
-            ${option.status_name}
-        </option>`
-    ).join('');
-}
+// function renderStatusOptions(selected, statuses) {
+//     return statuses.map(option =>
+//         `<option value="${option.status_id}" ${option.status_name === selected ? 'selected' : ''}>
+//             ${option.status_name}
+//         </option>`
+//     ).join('');
+// }
 
 
 

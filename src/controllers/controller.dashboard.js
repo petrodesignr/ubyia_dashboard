@@ -61,31 +61,36 @@ exports.getDashboard = async (req, res) => {
 
 exports.getFilteredTickets = async (req, res) => {
     try {
-        const { priority_id = '', status_id = '' } = req.body;
+        console.log('Received Request Body:', req.body); // Log incoming request body
+        const { priority_id = '', status_id = '',staff_id = '' } = req.body;
+        console.log('Filters:', { priority_id, status_id, staff_id }); // Log parsed filters
 
         const priority = await ticketModel.getPriority();
         const status = await ticketModel.getStatus();
 
-        // const limit = 10; // Number of tickets per page
-        // const page = parseInt(req.query.page) || 1; // Current page (default: 1)
-        // const offset = limit * (page - 1); // SQL offset
+        const limit = 10; // Number of tickets per page
+        const page = parseInt(req.query.page) || 1; // Current page (default: 1)
+        const offset = limit * (page - 1); // SQL offset
 
-         const tickets = await ticketModel.getTicketsByFilters(priority_id, status_id);
-        // const totalTickets = await ticketModel.getTotalTickets();
-        // const totalPages = Math.ceil(totalTickets / limit); // Total pages
+        const tickets = await ticketModel.getTicketsByFilters(priority_id, status_id, staff_id, limit, offset);
+        const totalTickets = await ticketModel.getTotalTickets();
+        const totalPages = Math.ceil(totalTickets / limit); // Total pages
 
-        // console.log('Tickets:', tickets); // Log tickets fetched from the database
+        console.log('Tickets:', tickets); // Log tickets fetched from the database
 
         if (tickets.length === 0) {
             return res.status(200).json({ data: [], message: 'No tickets available' });
         }
 
-        res.status(200).json({ data: tickets, priority, status });
+        res.status(200).json({ data: tickets, totalTickets, totalPages,priority, status });
     } catch (error) {
         console.error('Error in getFilteredTickets:', error); // Log the error
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
+
 
 
 
