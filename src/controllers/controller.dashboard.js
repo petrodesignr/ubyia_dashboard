@@ -31,64 +31,134 @@ exports.updateStatus = async (req, res) => {
     }
 };
 
-exports.getDashboard = async (req, res) => {
-    try {
-        const priority = await ticketModel.getPriority();
-        const status = await ticketModel.getStatus();
+// exports.getDashboard = async (req, res) => {
+//     try {
+//         const priority = await ticketModel.getPriority();
+//         const status = await ticketModel.getStatus();
 
-        const limit = 10; // Nombre de tickets par page
-        const page = parseInt(req.query.page) || 1; // Page actuelle (par défaut 1)
-        const offset = limit * (page - 1); // Décalage SQL basé sur la page actuelle
+//         const limit = 10; // Nombre de tickets par page
+//         const page = parseInt(req.query.page) || 1; // Page actuelle (par défaut 1)
+//         const offset = limit * (page - 1); // Décalage SQL basé sur la page actuelle
 
-        // Récupération des tickets et du total
-        const tickets = await ticketModel.getAllTickets(limit, offset);
-        const totalTickets = await ticketModel.getTotalTickets();
-        const totalPages = Math.ceil(totalTickets / limit); // Total des pages
+//         // Récupération des tickets et du total
+//         const tickets = await ticketModel.getAllTickets(limit, offset);
+//         const totalTickets = await ticketModel.getTotalTickets();
+//         const totalPages = Math.ceil(totalTickets / limit); // Total des pages
 
-        res.render('tickets/dashboard', {
-            tickets: tickets,
-            priority: priority,
-            status: status,
-            currentPage: page, // Page actuelle
-            totalTickets: totalTickets, // Nombre total de tickets
-            totalPages: totalPages, // Total des pages
-        });
-    } catch (error) {
-        console.error('Erreur dans getDashboard:', error);
-        res.status(500).send('Erreur serveur');
-    }
-};
+//         res.render('tickets/dashboard', {
+//             tickets: tickets,
+//             priority: priority,
+//             status: status,
+//             currentPage: page, // Page actuelle
+//             totalTickets: totalTickets, // Nombre total de tickets
+//             totalPages: totalPages, // Total des pages
+//         });
+//     } catch (error) {
+//         console.error('Erreur dans getDashboard:', error);
+//         res.status(500).send('Erreur serveur');
+//     }
+// };
 
 exports.getFilteredTickets = async (req, res) => {
     try {
-        console.log('Received Request Body:', req.body); // Log incoming request body
-        const { priority_id = '', status_id = '',staff_id = '' } = req.body;
-        console.log('Filters:', { priority_id, status_id, staff_id }); // Log parsed filters
+        // console.log('Received Request Params:', req.params);
+        // console.log('Received Query Params:', req.query);
 
+        const page = parseInt(req.query.page) || 1; // Page actuelle (par défaut 1)
+        const { priority_id, status_id, staff_id } = req.query; // Use query params for filters
+
+        const currentStatus = status_id ? parseInt(status_id, 10) : null;
+        const currentPriority = priority_id ? parseInt(priority_id, 10) : null;
+        const currentStaff = staff_id ? parseInt(staff_id, 10) : null;
+
+        // Validate and parse page
+        // const page = parseInt(req.params.page, 10);
+        if (isNaN(page) || page <= 0) {
+            return res.status(400).json({ error: 'Page must be a positive number' });
+        }
+
+        const limit = 10; // Tickets per page
+        const offset = limit * (page - 1);
+
+        // Fetch priorities and statuses
         const priority = await ticketModel.getPriority();
         const status = await ticketModel.getStatus();
 
-        const limit = 10; // Number of tickets per page
-        const page = parseInt(req.query.page) || 1; // Current page (default: 1)
-        const offset = limit * (page - 1); // SQL offset
-
+        // Fetch tickets and filtered total count
         const tickets = await ticketModel.getTicketsByFilters(priority_id, status_id, staff_id, limit, offset);
-        const totalTickets = await ticketModel.getTotalTickets();
-        const totalPages = Math.ceil(totalTickets / limit); // Total pages
+        const totalTickets = await ticketModel.getTotalTickets(priority_id, status_id, staff_id); // Use updated function
+        console.log('totalTickets:', totalTickets);
+        const totalPages = Math.ceil(totalTickets / limit);
 
-        console.log('Tickets:', tickets); // Log tickets fetched from the database
+        // console.log('Tickets:', tickets);
 
-        if (tickets.length === 0) {
-            return res.status(200).json({ data: [], message: 'No tickets available' });
-        }
-
-        res.status(200).json({ data: tickets, totalTickets, totalPages,priority, status });
+        // Return response
+        res.render('tickets/dashboard', {
+            tickets,
+            totalTickets, // Total tickets matching the filters
+            totalPages,
+            priority,
+            status,
+            currentStatus,
+            currentPriority,
+            currentStaff,
+            currentPage: page, // Page actuelle
+        });
     } catch (error) {
-        console.error('Error in getFilteredTickets:', error); // Log the error
-        res.status(500).json({ error: 'Internal Server Error' });
+        console.error('Error in getFilteredTickets:', error);
+        res.status(500).json({ error: 'Internal Server Error', details: error.message });
     }
 };
 
+
+
+// exports.getDashboard = async (req, res) => {
+//     try {
+//         console.log('Received Request Params:', req.params);
+//         console.log('Received Query Params:', req.query);
+
+//         // Combine route params and query params
+//         const { priority_id, status_id } = req.params;
+//         const { staff_id } = req.query;
+
+//         // Validate and parse page
+//         const page = parseInt(req.params.page, 10) || 1;
+//         if (page <= 0) {
+//             return res.status(400).json({ error: 'Invalid page number' });
+//         }
+
+//         const limit = 10; // Tickets per page
+//         const offset = limit * (page - 1);
+
+//         // Fetch priorities and statuses
+//         const priority = await ticketModel.getPriority();
+//         const status = await ticketModel.getStatus();
+
+//         // Fetch tickets
+//         const tickets = await ticketModel.getTicketsByFilters(priority_id, status_id, staff_id, limit, offset);
+//         const totalTickets = await ticketModel.getTotalTickets();
+//         const totalPages = Math.ceil(totalTickets / limit);
+
+//         console.log('Tickets:', tickets);
+
+//         // Return response
+//         if (tickets.length === 0) {
+//             return res.status(200).json({ data: [], message: 'No tickets available' });
+//         }
+
+//         res.render('tickets/dashboard', {
+//             tickets: tickets,
+//             priority: priority,
+//             status: status,
+//             currentPage: page, // Page actuelle
+//             totalTickets: totalTickets, // Nombre total de tickets
+//             totalPages: totalPages, // Total des pages
+//         });
+//     } catch (error) {
+//         console.error('Error in getFilteredTickets:', error);
+//         res.status(500).json({ error: 'Internal Server Error', details: error.message });
+//     }
+// };
 
 
 

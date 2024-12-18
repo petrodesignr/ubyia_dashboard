@@ -34,7 +34,7 @@
             <div class="main_pop_filter">
                 <div>
                     <button>
-                        <a href="/tickets/dashboard">reset filter</a>
+                        <a href="/tickets/dashboard/filter/:page">reset filter</a>
                     </button>
 
                 </div>
@@ -49,40 +49,48 @@
                 </div>
 
 
-                <form id="filterForm">
-                        <div>
-                            <input type="checkbox" id= "<%=staff.staff_id%>" name="staff" value="<%=staff.staff_id%>">
-                        </div>
-                        <div>
-                            <h4>Priorité</h4>
-                            <% priority.forEach(option => { %>
-                                <div>
-                                    <input 
-                                        type="checkbox" 
-                                        id="priority-<%= option.priority_id %>" 
-                                        name="priority" 
-                                        value="<%= option.priority_id %>">
-                                    <label for="priority-<%= option.priority_id %>"><%= option.priority_name %></label>
-                                </div>
-                            <% }); %>
-                        </div>
+                <form id="filterForm" method="GET" action="http://localhost:5001/tickets/dashboard/filter/1"> <!-- Default page is 1 -->
+    <div>
+        <h4>Staff</h4>
+        <input 
+            type="checkbox" 
+            id="staff-<%= staff.staff_id %>" 
+            name="staff_id" 
+            value="<%= staff.staff_id %>">
+        <label for="staff-<%= staff.staff_id %>"><%= staff.staff_name %></label>
+    </div>
 
-                        <div>
-                            <h4>Statut</h4>
-                            <% status.forEach(option => { %>
-                                <div>
-                                    <input 
-                                        type="checkbox" 
-                                        id="status-<%= option.status_id %>" 
-                                        name="status" 
-                                        value="<%= option.status_id %>">
-                                    <label for="status-<%= option.status_id %>"><%= option.status_name %></label>
-                                </div>
-                            <% }); %>
-                        </div>
+    <div>
+        <h4>Priorité</h4>
+        <% priority.forEach(option => { %>
+            <div>
+                <input 
+                    type="checkbox" 
+                    id="priority-<%= option.priority_id %>" 
+                    name="priority_id" 
+                    value="<%= option.priority_id %>">
+                <label for="priority-<%= option.priority_id %>"><%= option.priority_name %></label>
+            </div>
+        <% }); %>
+    </div>
 
-                        <button type="submit">Filtrer</button>
-                </form>
+    <div>
+        <h4>Statut</h4>
+        <% status.forEach(option => { %>
+            <div>
+                <input 
+                    type="checkbox" 
+                    id="status-<%= option.status_id %>" 
+                    name="status_id" 
+                    value="<%= option.status_id %>">
+                <label for="status-<%= option.status_id %>"><%= option.status_name %></label>
+            </div>
+        <% }); %>
+    </div>
+
+    <button type="submit">Filtrer</button>
+</form>
+
 
 
             </div>
@@ -157,24 +165,30 @@
         </section>
         <!-- Pagination -->
     <div class="pagination">
-        <% if (totalTickets > 0) { %>
-            <% if (currentPage > 1) { %>
-                <a href="?page=<%= currentPage - 1 %>">Précédent</a>
-            <% } %>
-
-            <% for (let i = 1; i <= totalPages; i++) { %>
-                <a href="?page=<%= i %>" <% if (i === currentPage) { %> style="font-weight: bold;" <% } %>>
-                    <%= i %>
-                </a>
-            <% } %>
-
-            <% if (currentPage < totalPages) { %>
-                <a href="?page=<%= currentPage + 1 %>">Suivant</a>
-            <% } %>
-        <% } else { %>
-            <p>Aucun ticket disponible pour le moment.</p>
+    <% if (totalTickets > 0) { %>
+        <% if (currentPage > 1) { %>
+            <a href="?page=<%= currentPage - 1 %>&status_id=<%= currentStatus || '' %>&priority_id=<%= currentPriority || '' %>&staff_id=<%= currentStaff || '' %>">
+                Précédent
+            </a>
         <% } %>
-    </div>
+
+        <% for (let i = 1; i <= totalPages; i++) { %>
+            <a href="?page=<%= i %>&status_id=<%= currentStatus || '' %>&priority_id=<%= currentPriority || '' %>&staff_id=<%= currentStaff || '' %>" 
+               <% if (i === currentPage) { %> style="font-weight: bold;" <% } %>>
+                <%= i %>
+            </a>
+        <% } %>
+
+        <% if (currentPage < totalPages) { %>
+            <a href="?page=<%= currentPage + 1 %>&status_id=<%= currentStatus || '' %>&priority_id=<%= currentPriority || '' %>&staff_id=<%= currentStaff || '' %>">
+                Suivant
+            </a>
+        <% } %>
+    <% } else { %>
+        <p>Aucun ticket disponible pour le moment.</p>
+    <% } %>
+</div>
+
     <!-- Fin de la pagination ----->
     </main>
       </body>

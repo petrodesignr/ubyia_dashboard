@@ -53,20 +53,60 @@ const ticketModel = {
         });
     },
 
-    getTotalTickets: () => {
+    // getTotalTickets: () => {
+    //     return new Promise((resolve, reject) => {
+    //         const sqlRequest = `
+    //             SELECT COUNT(*) AS totalTickets
+    //             FROM ticket;
+    //         `;
+    //         sql.query(sqlRequest, (err, res) => {
+    //             if (err) {
+    //                 return reject(err);
+    //             }
+    //             resolve(res[0].totalTickets); // Assuming it returns one row with totalTickets
+    //         });
+    //     });
+    // },
+
+
+    getTotalTickets: (priority_id, status_id, staff_id) => {
         return new Promise((resolve, reject) => {
-            const sqlRequest = `
-                SELECT COUNT(*) AS totalTickets
-                FROM ticket;
-            `;
-            sql.query(sqlRequest, (err, res) => {
+            let sqlRequest = `
+            SELECT COUNT(DISTINCT t.ticket_id) AS totalTickets
+            FROM ticket t
+            LEFT JOIN priority p ON t.id_priority = p.priority_id
+            LEFT JOIN status st ON t.id_status = st.status_id
+            LEFT JOIN message m ON t.ticket_id = m.id_ticket
+            LEFT JOIN staff s ON m.id_staff = s.staff_id
+            WHERE 1 = 1
+        `;
+
+            const params = [];
+            if (priority_id) {
+                sqlRequest += ` AND p.priority_id = ?`;
+                params.push(priority_id);
+            }
+            if (status_id) {
+                sqlRequest += ` AND st.status_id = ?`;
+                params.push(status_id);
+            }
+            if (staff_id) {
+                sqlRequest += ` AND s.staff_id = ?`;
+                params.push(staff_id);
+            }
+
+            sql.query(sqlRequest, params, (err, res) => {
                 if (err) {
+                    console.error('SQL Error in getTotalTickets:', err);
                     return reject(err);
                 }
-                resolve(res[0].totalTickets); // Assuming it returns one row with totalTickets
+                resolve(res[0].totalTickets); // Assuming the query returns one row
             });
         });
     },
+
+
+
 
     getStatus: () => {
         return new Promise((resolve, reject) => {
@@ -129,10 +169,10 @@ const ticketModel = {
     },
 
 
-    getTicketsByFilters: (priority, status, staff, limit, offset) => {
+    getTicketsByFilters: (priority_id, status_id, staff_id, limit, offset) => {
         return new Promise((resolve, reject) => {
 
-            console.log('Filters:', { priority, status, staff, limit, offset }); // Debug log
+            console.log('Filters:', { priority_id, status_id, staff_id, limit, offset }); // Debug log
 
             let sqlRequest = `
             SELECT 
@@ -168,19 +208,19 @@ const ticketModel = {
             const conditions = [];
             const params = [];
 
-            if (priority) {
+            if (priority_id) {
                 conditions.push("p.priority_id IN (?)");
-                params.push(priority);
+                params.push(priority_id);
             }
 
-            if (status) {
+            if (status_id) {
                 conditions.push("st.status_id IN (?)");
-                params.push(status);
+                params.push(status_id);
             }
 
-            if (staff) {
+            if (staff_id) {
                 conditions.push("s.staff_id IN (?)");
-                params.push(staff);
+                params.push(staff_id);
             }
 
             if (conditions.length > 0) {
@@ -197,8 +237,8 @@ const ticketModel = {
 
             params.push(limit, offset); // Add limit and offset to the params array
 
-            console.log('Generated SQL Query:', sqlRequest); // Log query
-            console.log('Query Parameters:', params); // Log parameters
+            // console.log('Generated SQL Query:', sqlRequest); // Log query
+            // console.log('Query Parameters:', params); // Log parameters
             sql.query(sqlRequest, params, (err, res) => {
                 if (err) {
                     console.error('SQL Error:', err);
