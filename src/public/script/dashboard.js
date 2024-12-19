@@ -69,113 +69,165 @@ $(document).ready(function () {
 
 // Filtrer par Date
 
-$(function() {
-    var start = moment();
-    var end = moment();
+// $(function() {
+//     var start = moment();
+//     var end = moment();
 
-    // Fonction de rappel pour mettre à jour la plage de dates affichée
-    function cb(start, end, label) {
-        if (label === 'Today' || label === 'Yesterday' || label === '') {
-            $('#reportrange span').html(start.format('DD/MM/YYYY'));
-        } else {
-            $('#reportrange span').html(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
-        }
+//     // Fonction de rappel pour mettre à jour la plage de dates affichée
+//     function cb(start, end, label) {
+//         if (label === 'Today' || label === 'Yesterday' || label === '') {
+//             $('#reportrange span').html(start.format('DD/MM/YYYY'));
+//         } else {
+//             $('#reportrange span').html(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
+//         }
 
-        // Appliquer le filtre uniquement si la case à cocher est activée
-        if ($('#activateDateFilter').is(':checked')) {
-            filterByDateRange(start.toDate(), end.toDate());
-        }
-    }
+//         // Appliquer le filtre uniquement si la case à cocher est activée
+//         if ($('#activateDateFilter').is(':checked')) {
+//             filterByDateRange(start.toDate(), end.toDate());
+//         }
+//     }
 
-    // Initialiser le sélecteur de plage de dates
-    const dateRangePicker = $('#reportrange').daterangepicker({
-        startDate: start,
-        endDate: end,
-        ranges: {
-            'Today': [moment(), moment()],
-            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        }
-    }, cb);
+//     // Initialiser le sélecteur de plage de dates
+//     const dateRangePicker = $('#reportrange').daterangepicker({
+//         startDate: start,
+//         endDate: end,
+//         ranges: {
+//             'Today': [moment(), moment()],
+//             'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+//             'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+//             'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+//             'This Month': [moment().startOf('month'), moment().endOf('month')],
+//             'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+//         }
+//     }, cb);
 
-    // Désactiver le sélecteur de dates initialement
-    $('#reportrange').addClass('disabled');
-    $('#reportrange').css('pointer-events', 'none');
+//     // Désactiver le sélecteur de dates initialement
+//     $('#reportrange').addClass('disabled');
+//     $('#reportrange').css('pointer-events', 'none');
 
-    // Définir la valeur initiale de #dateRangeLabel à la date d'aujourd'hui
-    $('#dateRangeLabel').text(moment().format('DD/MM/YYYY'));
+//     // Définir la valeur initiale de #dateRangeLabel à la date d'aujourd'hui
+//     $('#dateRangeLabel').text(moment().format('DD/MM/YYYY'));
 
-    // Afficher toutes les lignes initialement
-    showAllRows();
+//     // Afficher toutes les lignes initialement
+//     showAllRows();
 
-    // Gérer le basculement de la case à cocher
-    $('#activateDateFilter').change(function() {
-        if ($(this).is(':checked')) {
-            // Activer le sélecteur de dates
-            $('#reportrange').removeClass('disabled');
-            $('#reportrange').css('pointer-events', 'auto');
+//     // Gérer le basculement de la case à cocher
+//     $('#activateDateFilter').change(function() {
+//         if ($(this).is(':checked')) {
+//             // Activer le sélecteur de dates
+//             $('#reportrange').removeClass('disabled');
+//             $('#reportrange').css('pointer-events', 'auto');
 
-            // Appliquer le filtre avec la plage actuelle
-            // filterByDateRange(start.toDate(), end.toDate());
+//             // Appliquer le filtre avec la plage actuelle
+//             // filterByDateRange(start.toDate(), end.toDate());
 
-            const todayStart = moment().startOf('day').toDate();
-            const todayEnd = moment().endOf('day').toDate();
-            filterByDateRange(todayStart, todayEnd);
-        } else {
-            // Désactiver le sélecteur de dates
-            $('#reportrange').addClass('disabled');
-            $('#reportrange').css('pointer-events', 'none');
+//             const todayStart = moment().startOf('day').toDate();
+//             const todayEnd = moment().endOf('day').toDate();
+//             filterByDateRange(todayStart, todayEnd);
+//         } else {
+//             // Désactiver le sélecteur de dates
+//             $('#reportrange').addClass('disabled');
+//             $('#reportrange').css('pointer-events', 'none');
 
-            // Réinitialiser #dateRangeLabel à la date d'aujourd'hui
-            $('#dateRangeLabel').text(moment().format('DD/MM/YYYY'));
+//             // Réinitialiser #dateRangeLabel à la date d'aujourd'hui
+//             $('#dateRangeLabel').text(moment().format('DD/MM/YYYY'));
 
-            // Afficher toutes les lignes lorsque le filtre est désactivé
-            showAllRows();
+//             // Afficher toutes les lignes lorsque le filtre est désactivé
+//             showAllRows();
             
+//         }
+//     });
+
+//     // Fonction pour afficher toutes les lignes du tableau
+//     function showAllRows() {
+//         const rows = document.querySelectorAll("#ticketTable tbody tr");
+//         rows.forEach(row => {
+//             row.style.display = ""; // Afficher toutes les lignes
+//         });
+//     }
+
+//     // Fonction pour filtrer les lignes du tableau en fonction de la plage de dates
+//     function filterByDateRange(startDate, endDate) {
+//         startDate = new Date(startDate);
+//         endDate = new Date(endDate);
+
+//         const rows = document.querySelectorAll("#ticketTable tbody tr");
+
+//         rows.forEach(row => {
+//             const dateCell = row.querySelector("td:nth-child(4)"); // Supposons que la date est dans la 4ème colonne
+//             if (dateCell) {
+//                 const rowDate = extractDate(dateCell.textContent);
+//                 if (rowDate >= startDate && rowDate <= endDate) {
+//                     row.style.display = ""; // Afficher la ligne
+//                 } else {
+//                     row.style.display = "none"; // Masquer la ligne
+//                 }
+//             }
+//         });
+//     }
+
+//     // Fonction pour extraire la date du texte de la cellule
+//     function extractDate(cellText) {
+//         const dateMatch = cellText.match(/Le:\s?(\d{2}\/\d{2}\/\d{4})/);
+//         if (dateMatch) {
+//             const [day, month, year] = dateMatch[1].split('/').map(Number);
+//             return new Date(year, month - 1, day); // Convertir en objet Date
+//         }
+//         return new Date(0); // Valeur par défaut si aucune date valide n'est trouvée
+//     }
+// });
+
+$(function () {
+    // Get dates passed from the server, fallback to today
+    const start = moment('<%= startDate || moment().format("YYYY-MM-DD") %>');
+    const end = moment('<%= endDate || moment().format("YYYY-MM-DD") %>');
+
+    // Initialize the date range picker
+    $('#reportrange').daterangepicker(
+        {
+            startDate: start,
+            endDate: end,
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [
+                    moment().subtract(1, 'month').startOf('month'),
+                    moment().subtract(1, 'month').endOf('month'),
+                ],
+            },
+        },
+        function (start, end) {
+            // Update label text with selected range
+            $('#dateRangeLabel').text(
+                start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY')
+            );
+
+            // Redirect or apply filter with new dates
+            applyDateFilter(start, end);
         }
-    });
+    );
 
-    // Fonction pour afficher toutes les lignes du tableau
-    function showAllRows() {
-        const rows = document.querySelectorAll("#ticketTable tbody tr");
-        rows.forEach(row => {
-            row.style.display = ""; // Afficher toutes les lignes
-        });
-    }
+    // Set the label initially with the date range
+    $('#dateRangeLabel').text(
+        start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY')
+    );
 
-    // Fonction pour filtrer les lignes du tableau en fonction de la plage de dates
-    function filterByDateRange(startDate, endDate) {
-        startDate = new Date(startDate);
-        endDate = new Date(endDate);
+    // Function to apply filters and reload with new query params
+    function applyDateFilter(start, end) {
+        const queryParams = new URLSearchParams(window.location.search);
 
-        const rows = document.querySelectorAll("#ticketTable tbody tr");
+        queryParams.set('startDate', start.format('YYYY-MM-DD'));
+        queryParams.set('endDate', end.format('YYYY-MM-DD'));
 
-        rows.forEach(row => {
-            const dateCell = row.querySelector("td:nth-child(4)"); // Supposons que la date est dans la 4ème colonne
-            if (dateCell) {
-                const rowDate = extractDate(dateCell.textContent);
-                if (rowDate >= startDate && rowDate <= endDate) {
-                    row.style.display = ""; // Afficher la ligne
-                } else {
-                    row.style.display = "none"; // Masquer la ligne
-                }
-            }
-        });
-    }
-
-    // Fonction pour extraire la date du texte de la cellule
-    function extractDate(cellText) {
-        const dateMatch = cellText.match(/Le:\s?(\d{2}\/\d{2}\/\d{4})/);
-        if (dateMatch) {
-            const [day, month, year] = dateMatch[1].split('/').map(Number);
-            return new Date(year, month - 1, day); // Convertir en objet Date
-        }
-        return new Date(0); // Valeur par défaut si aucune date valide n'est trouvée
+        window.location.href =
+            window.location.pathname + '?' + queryParams.toString();
     }
 });
+
+
 
 
 // Update the callback to apply query parameters

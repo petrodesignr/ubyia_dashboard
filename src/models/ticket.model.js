@@ -169,7 +169,7 @@ const ticketModel = {
     },
 
 
-    getTicketsByFilters: (priority_id, status_id, staff_id, limit, offset) => {
+    getTicketsByFilters: (priority_id, status_id, staff_id, limit, offset, startDate, endDate) => {
         return new Promise((resolve, reject) => {
 
             console.log('Filters:', { priority_id, status_id, staff_id, limit, offset }); // Debug log
@@ -221,6 +221,11 @@ const ticketModel = {
             if (staff_id) {
                 conditions.push("s.staff_id IN (?)");
                 params.push(staff_id);
+            }
+
+            if (startDate && endDate) {
+                conditions.push("t.ticket_date_create BETWEEN ? AND ?");
+                params.push(startDate, endDate);
             }
 
             if (conditions.length > 0) {

@@ -1,6 +1,8 @@
 // controllers/dashboard.controller.js
 
 const ticketModel = require("../models/ticket.model");
+const moment = require('moment');
+
 
 
 exports.updatePriority = async (req, res) => {
@@ -61,54 +63,50 @@ exports.updateStatus = async (req, res) => {
 
 exports.getFilteredTickets = async (req, res) => {
     try {
-        // console.log('Received Request Params:', req.params);
-        // console.log('Received Query Params:', req.query);
-
-        const page = parseInt(req.query.page) || 1; // Page actuelle (par défaut 1)
-        const { priority_id, status_id, staff_id } = req.query; // Use query params for filters
+        const page = parseInt(req.query.page) || 1;
+        const { priority_id, status_id, staff_id, startDate, endDate } = req.query;
 
         const currentStatus = status_id ? parseInt(status_id, 10) : null;
         const currentPriority = priority_id ? parseInt(priority_id, 10) : null;
-        const currentStaff = staff_id ? parseInt(staff_id, 10) : null;
+        const currentStaff = staff_id ? staff_id : null;
 
-        // Validate and parse page
-        // const page = parseInt(req.params.page, 10);
         if (isNaN(page) || page <= 0) {
             return res.status(400).json({ error: 'Page must be a positive number' });
         }
 
-        const limit = 10; // Tickets per page
+        const limit = 10;
         const offset = limit * (page - 1);
 
-        // Fetch priorities and statuses
         const priority = await ticketModel.getPriority();
         const status = await ticketModel.getStatus();
 
-        // Fetch tickets and filtered total count
-        const tickets = await ticketModel.getTicketsByFilters(priority_id, status_id, staff_id, limit, offset);
-        const totalTickets = await ticketModel.getTotalTickets(priority_id, status_id, staff_id); // Use updated function
-        console.log('totalTickets:', totalTickets);
+        const tickets = await ticketModel.getTicketsByFilters(priority_id, status_id, staff_id, limit, offset, startDate, endDate);
+        const totalTickets = await ticketModel.getTotalTickets(priority_id, status_id, staff_id, startDate, endDate);
         const totalPages = Math.ceil(totalTickets / limit);
 
-        // console.log('Tickets:', tickets);
-
-        // Return response
         res.render('tickets/dashboard', {
             tickets,
-            totalTickets, // Total tickets matching the filters
+            totalTickets,
             totalPages,
             priority,
             status,
             currentStatus,
             currentPriority,
             currentStaff,
-            currentPage: page, // Page actuelle
+            currentPage: page,
+            startDate: startDate || moment().startOf('day').format('YYYY-MM-DD'),
+            endDate: endDate || moment().endOf('day').format('YYYY-MM-DD'),
+            dateNow: moment().format('DD/MM/YYYY'),
+            moment // Pass moment to the EJS template
         });
     } catch (error) {
         console.error('Error in getFilteredTickets:', error);
         res.status(500).json({ error: 'Internal Server Error', details: error.message });
     }
 };
+
+
+
 
 
 

@@ -223,7 +223,7 @@ tbody tr td p {
 tbody tr.hide td,
 tbody tr.hide td p {
     padding: 0;
-    font: 0 / 0 sans-serif;
+    font: 0/0 sans-serif;
     transition: .2s ease-in-out .5s;
 }
 
